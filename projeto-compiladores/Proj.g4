@@ -33,7 +33,7 @@ boolExpression:
 ;
 
 termo:
-    Identifier | Integer | Float | string
+    Identifier | Integer | Float | String
 ;
 
 WhiteSpace: (' ' | '\t' | '\n' | '\r') -> skip;
@@ -44,14 +44,13 @@ CloseBraces: '}';
 Semicolon: ';' ;
 
 Operation: '+' | '-' | '*' | '/' | '%';
-LogicalOperator: '||' | '&&' | '!=' | '!' |'==' ;
+LogicalOperator: '||' | '&&' | '!=' | '!' |'==' | '>' | '<' | '<=' | '>=' ;
 Attribute: '=';
 
 //Possuir 2 tipos de variáveis (pelo menos 1 deles String)
 Integer: [0-9];
 Float: [0-9]+ ( '.' [0-9]+ )?;
-string: ( '\'' | '"' ) (Char)*? ( '\'' | '"' );
-Char: ( [a-z] | [A-Z] | [0-9]) ;
+String: ( '\'' | '"' ) (Char)* ( '\'' | '"' );
 
 //Possuir a instrução if-else
 IfSintax: 'if' | 'IF';
@@ -72,8 +71,9 @@ WhileSintax: 'while' | 'WHILE';
 whileCMD:
     WhileSintax OpenParentheses boolExpression CloseParentheses OpenBraces
         codeBlock
-    CloseBraces Semicolon
+    CloseBraces
 ;
 
 //Deixar aqui para não idenficar um "if", "while", etc como Identifier
 Identifier: [a-z] ( [a-z] | [A-Z] | [0 - 9] )*?;
+Char: ( [a-z] | [A-Z] | [0-9]) ;
