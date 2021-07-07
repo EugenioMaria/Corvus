@@ -9,7 +9,7 @@ codeBlock :
 ;
 
 command:
-    read | write | attribute | ifCMD | ifElseCMD | elseIfCMD | while
+    read | write | attribute | ifCMD | ifElseCMD | elseIfCMD | whileCMD
 ;
 
 read:
@@ -68,10 +68,10 @@ elseIfCMD:
     ifCMD (ElseSintax ifCMD)+
 ;
 
-While: 'while' | 'WHILE';
+WhileSintax: 'while' | 'WHILE';
 
-while:
-    While OpenParentheses boolExpression CloseParentheses OpenBraces
+whileCMD:
+    WhileSintax OpenParentheses boolExpression CloseParentheses OpenBraces
         codeBlock
     CloseBraces Semicolon
 ;
