@@ -1,14 +1,15 @@
 grammar Proj;
 
-prog : 'program' OpenBraces codeBlock CloseBraces 'end'
+prog :
+    'program' OpenBraces codeBlock CloseBraces 'end'
 ;
 
 codeBlock :
-    (command)+
+    (command)*
 ;
 
 command:
-    read | write | attribute | ifCMD | ifElseCMD | elseIfCMD
+    read | write | attribute | ifCMD | ifElseCMD | elseIfCMD | while
 ;
 
 read:
@@ -35,7 +36,6 @@ termo:
     Identifier | Integer | Float | string
 ;
 
-
 OpenParentheses: '(' ;
 CloseParentheses: ')' ;
 OpenBraces: '{';
@@ -47,12 +47,11 @@ Operation: '+' | '-' | '*' | '/' | '%';
 LogicalOperator: '||' | '&&' | '!=' | '!' |'==' ;
 Attribute: '=';
 
-Identifier: [a-z] ( [a-z] | [A-Z] | [0 - 9] )*?;
 
 //Possuir 2 tipos de variáveis (pelo menos 1 deles String)
 Integer: [0-9];
 Float: [0-9]+ ( '.' [0-9]+ )?;
-string: ( '\'' | '"' ) (Char)+? ( '\'' | '"' ) ;
+string: ( '\'' | '"' ) (Char)+? ( '\'' | '"' );
 Char: ( [a-z] | [A-Z] | [0-9]) ;
 
 //Possuir a instrução if-else
@@ -68,3 +67,14 @@ ifElseCMD:
 elseIfCMD:
     ifCMD (ElseSintax ifCMD)+
 ;
+
+While: 'while' | 'WHILE';
+
+while:
+    While OpenParentheses boolExpression CloseParentheses OpenBraces
+        codeBlock
+    CloseBraces Semicolon
+;
+
+//Deixar aqui para não idenficar um "if", "while", etc como Identifier
+Identifier: [a-z] ( [a-z] | [A-Z] | [0 - 9] )*;

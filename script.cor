@@ -1,9 +1,9 @@
 program {
-    v = 5*2;
-    read(a);
-    if(a=b){
-        a = 7+b;
-    }
+    //v = 5*2;
+    //read(a);
+    //if(a=b){
+    //    a = 7+b;
+    //}
 } end
 
 
