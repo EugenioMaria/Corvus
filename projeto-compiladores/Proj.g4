@@ -1,73 +1,70 @@
 grammar Proj;
 
-prog:
-    'program'
-        codeBlock
-    'end'
+prog : 'program' OpenBraces codeBlock CloseBraces 'end'
 ;
 
-codeBlock:
+codeBlock :
     (command)+
 ;
 
 command:
-    read | write | attribute | if | ifElse
+    read | write | attribute | ifCMD | ifElseCMD | elseIfCMD
 ;
 
 read:
-    'read' OpenParentheses Identifier CloseParentheses Semicolon
+    'read' OpenParentheses termo CloseParentheses Semicolon
 ;
 
 write:
-    'write' OpenParentheses Identifier CloseParentheses Semicolon
+    'write' OpenParentheses termo CloseParentheses Semicolon
 ;
 
 attribute:
-    'attribute' Identifier Attribute expression Semicolon
+    Identifier Attribute expression Semicolon
 ;
 
 expression:
     termo ( Operation termo )*
 ;
 
+boolExpression:
+    termo (LogicalOperator termo)*
+;
+
 termo:
     Identifier | Integer | Float | string
 ;
+
 
 OpenParentheses: '(' ;
 CloseParentheses: ')' ;
 OpenBraces: '{';
 CloseBraces: '}';
 Semicolon: ';' ;
-WriteSpace: (' ' | '\t' | '\n' | '\r') -> skip;
+WhiteSpace: (' ' | '\t' | '\n' | '\r') -> skip;
 
 Operation: '+' | '-' | '*' | '/' | '%';
+LogicalOperator: '||' | '&&' | '!=' | '!' |'==' ;
 Attribute: '=';
 
-Identifier: [a-z] ( [a-z] | [A-Z] | [0 - 9] )*;
+Identifier: [a-z] ( [a-z] | [A-Z] | [0 - 9] )*?;
 
 //Possuir 2 tipos de variáveis (pelo menos 1 deles String)
 Integer: [0-9];
-Float: [0-9]+ ( '.' [0-9]+ );
-string: ( Char )+ ;
-Char: ( '\'' | '"' ) ( [a-z] | [A-Z] ) ( '\'' | '"' );
+Float: [0-9]+ ( '.' [0-9]+ )?;
+string: ( '\'' | '"' ) (Char)+? ( '\'' | '"' ) ;
+Char: ( [a-z] | [A-Z] | [0-9]) ;
 
 //Possuir a instrução if-else
-If: 'if' | 'IF';
-Else: 'else' | 'ELSE';
+IfSintax: 'if' | 'IF';
+ElseSintax: 'else' | 'ELSE';
 
-if:
-    If OpenParentheses expression CloseParentheses OpenBraces
-        codeBlock
-    CloseBraces
+ifCMD:
+    IfSintax OpenParentheses boolExpression CloseParentheses OpenBraces codeBlock CloseBraces
 ;
-ifElse:
-    if
-    Else OpenBraces
-        codeBlock
-    CloseBraces
+ifElseCMD:
+    ifCMD ElseSintax OpenBraces codeBlock CloseBraces
 ;
-elseIf:
-    if
-    (Else if)+
+elseIfCMD:
+    ifCMD (ElseSintax ifCMD)+
 ;
