@@ -1,5 +1,11 @@
-// Generated from C:/Users/Eugene/Desktop/ufabc/compiladores/Corvus/projeto-compiladores\Proj.g4 by ANTLR 4.9.1
+// Generated from C:/Users/Gabriel Agostini/IdeaProjects/projeto-compiladores-ufabc/projeto-compiladores\Proj.g4 by ANTLR 4.9.1
 package corvusParser;
+
+    import corvusDataStructures.corvusSymbol;
+    import corvusDataStructures.corvusVariable;
+    import corvusDataStructures.corvusSymbolTable;
+    import corvusExceptions.corvusSemanticException;
+
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -17,6 +23,36 @@ public interface ProjListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitProg(ProjParser.ProgContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ProjParser#decl}.
+	 * @param ctx the parse tree
+	 */
+	void enterDecl(ProjParser.DeclContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ProjParser#decl}.
+	 * @param ctx the parse tree
+	 */
+	void exitDecl(ProjParser.DeclContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ProjParser#varDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterVarDeclaration(ProjParser.VarDeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ProjParser#varDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitVarDeclaration(ProjParser.VarDeclarationContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ProjParser#type}.
+	 * @param ctx the parse tree
+	 */
+	void enterType(ProjParser.TypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ProjParser#type}.
+	 * @param ctx the parse tree
+	 */
+	void exitType(ProjParser.TypeContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ProjParser#codeBlock}.
 	 * @param ctx the parse tree

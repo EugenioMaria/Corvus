@@ -1,9 +1,11 @@
 program {
-    //v = 5*2;
-    //read(a);
-    //if(a=b){
-    //    a = 7+b;
-    //}
+    int a, b;
+    string texto;
+    list listaItens;
+    if(lista){
+        write("aBC");
+    }
+
 } end
 
 

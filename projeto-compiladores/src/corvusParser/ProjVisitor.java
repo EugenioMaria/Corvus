@@ -1,5 +1,11 @@
-// Generated from C:/Users/Eugene/Desktop/ufabc/compiladores/Corvus/projeto-compiladores\Proj.g4 by ANTLR 4.9.1
+// Generated from C:/Users/Gabriel Agostini/IdeaProjects/projeto-compiladores-ufabc/projeto-compiladores\Proj.g4 by ANTLR 4.9.1
 package corvusParser;
+
+    import corvusDataStructures.corvusSymbol;
+    import corvusDataStructures.corvusVariable;
+    import corvusDataStructures.corvusSymbolTable;
+    import corvusExceptions.corvusSemanticException;
+
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -16,6 +22,24 @@ public interface ProjVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitProg(ProjParser.ProgContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ProjParser#decl}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDecl(ProjParser.DeclContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ProjParser#varDeclaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVarDeclaration(ProjParser.VarDeclarationContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ProjParser#type}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitType(ProjParser.TypeContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ProjParser#codeBlock}.
 	 * @param ctx the parse tree
