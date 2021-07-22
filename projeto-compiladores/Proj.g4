@@ -1,9 +1,20 @@
 grammar Proj;
 
 prog :
-    'program' OpenBraces codeBlock CloseBraces 'end'
+    'program' OpenBraces decl codeBlock CloseBraces 'end'
 ;
 
+decl :
+    (varDeclaration)+
+;
+
+varDeclaration :
+    type Identifier (Colon Identifier)* Semicolon
+;
+
+type :
+    'int' | 'float' | 'string' | 'list' | 'obj'
+;
 codeBlock :
     (command)*
 ;
@@ -42,6 +53,7 @@ CloseParentheses: ')' ;
 OpenBraces: '{';
 CloseBraces: '}';
 Semicolon: ';' ;
+Colon: ',';
 
 Operation: '+' | '-' | '*' | '/' | '%';
 LogicalOperator: '||' | '&&' | '!=' | '!' |'==' | '>' | '<' | '<=' | '>=' ;
