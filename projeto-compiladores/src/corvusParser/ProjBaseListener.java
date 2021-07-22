@@ -1,4 +1,4 @@
-// Generated from C:/Users/Gabriel Agostini/IdeaProjects/projeto-compiladores-ufabc/projeto-compiladores\Proj.g4 by ANTLR 4.9.1
+// Generated from C:/Users/Eugene/Desktop/ufabc/compiladores/Corvus/projeto-compiladores\Proj.g4 by ANTLR 4.9.1
 package corvusParser;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -124,18 +124,6 @@ public class ProjBaseListener implements ProjListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterString(ProjParser.StringContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitString(ProjParser.StringContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterIfCMD(ProjParser.IfCMDContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -167,6 +155,18 @@ public class ProjBaseListener implements ProjListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitElseIfCMD(ProjParser.ElseIfCMDContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterWhileCMD(ProjParser.WhileCMDContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitWhileCMD(ProjParser.WhileCMDContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

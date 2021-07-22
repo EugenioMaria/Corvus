@@ -1,4 +1,4 @@
-// Generated from C:/Users/Gabriel Agostini/IdeaProjects/projeto-compiladores-ufabc/projeto-compiladores\Proj.g4 by ANTLR 4.9.1
+// Generated from C:/Users/Eugene/Desktop/ufabc/compiladores/Corvus/projeto-compiladores\Proj.g4 by ANTLR 4.9.1
 package corvusParser;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -65,12 +65,6 @@ public interface ProjVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitTermo(ProjParser.TermoContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ProjParser#string}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitString(ProjParser.StringContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link ProjParser#ifCMD}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -88,4 +82,10 @@ public interface ProjVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitElseIfCMD(ProjParser.ElseIfCMDContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ProjParser#whileCMD}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitWhileCMD(ProjParser.WhileCMDContext ctx);
 }

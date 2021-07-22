@@ -1,4 +1,4 @@
-// Generated from C:/Users/Gabriel Agostini/IdeaProjects/projeto-compiladores-ufabc/projeto-compiladores\Proj.g4 by ANTLR 4.9.1
+// Generated from C:/Users/Eugene/Desktop/ufabc/compiladores/Corvus/projeto-compiladores\Proj.g4 by ANTLR 4.9.1
 package corvusParser;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -98,16 +98,6 @@ public interface ProjListener extends ParseTreeListener {
 	 */
 	void exitTermo(ProjParser.TermoContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ProjParser#string}.
-	 * @param ctx the parse tree
-	 */
-	void enterString(ProjParser.StringContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ProjParser#string}.
-	 * @param ctx the parse tree
-	 */
-	void exitString(ProjParser.StringContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link ProjParser#ifCMD}.
 	 * @param ctx the parse tree
 	 */
@@ -137,4 +127,14 @@ public interface ProjListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitElseIfCMD(ProjParser.ElseIfCMDContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ProjParser#whileCMD}.
+	 * @param ctx the parse tree
+	 */
+	void enterWhileCMD(ProjParser.WhileCMDContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ProjParser#whileCMD}.
+	 * @param ctx the parse tree
+	 */
+	void exitWhileCMD(ProjParser.WhileCMDContext ctx);
 }
