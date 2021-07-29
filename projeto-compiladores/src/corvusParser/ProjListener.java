@@ -1,10 +1,16 @@
 // Generated from C:/Users/Gabriel Agostini/IdeaProjects/projeto-compiladores-ufabc/projeto-compiladores\Proj.g4 by ANTLR 4.9.1
 package corvusParser;
 
-    import corvusDataStructures.corvusSymbol;
-    import corvusDataStructures.corvusVariable;
-    import corvusDataStructures.corvusSymbolTable;
-    import corvusExceptions.corvusSemanticException;
+    import corvusDataStructures.CorvusSymbol;
+    import corvusDataStructures.CorvusVariable;
+    import corvusDataStructures.CorvusSymbolTable;
+    import corvusExceptions.CorvusSemanticException;
+    import corvusAST.CorvusAbstractCommand;
+    import corvusAST.CorvusProgram;
+    import corvusAST.CommandRead;
+    import corvusAST.CommandWrite;
+    import corvusAST.CommandAttr;
+    import java.util.ArrayList;
 
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 

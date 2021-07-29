@@ -1,11 +1,18 @@
 program {
-    int a, b;
+    int a, b, c;
     string texto;
     list listaItens;
-    if(lista){
+    if(listaItens){
         write("aBC");
+    } else {
+        write('teste');
     }
-
+    a = 7 + 2/5 + 2+1/b;
+    if("a"){
+        read(b);
+    } else if("B"){
+        read(c);
+    }
 } end
 
 

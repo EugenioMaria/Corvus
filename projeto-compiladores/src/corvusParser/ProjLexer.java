@@ -1,10 +1,16 @@
 // Generated from C:/Users/Gabriel Agostini/IdeaProjects/projeto-compiladores-ufabc/projeto-compiladores\Proj.g4 by ANTLR 4.9.1
 package corvusParser;
 
-    import corvusDataStructures.corvusSymbol;
-    import corvusDataStructures.corvusVariable;
-    import corvusDataStructures.corvusSymbolTable;
-    import corvusExceptions.corvusSemanticException;
+    import corvusDataStructures.CorvusSymbol;
+    import corvusDataStructures.CorvusVariable;
+    import corvusDataStructures.CorvusSymbolTable;
+    import corvusExceptions.CorvusSemanticException;
+    import corvusAST.CorvusAbstractCommand;
+    import corvusAST.CorvusProgram;
+    import corvusAST.CommandRead;
+    import corvusAST.CommandWrite;
+    import corvusAST.CommandAttr;
+    import java.util.ArrayList;
 
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
@@ -101,8 +107,27 @@ public class ProjLexer extends Lexer {
 	    private int _varType;
 	    private String _varName;
 	    private String _varValue;
-	    private corvusSymbolTable symbolTable = new corvusSymbolTable();
-	    private corvusSymbol symbol;
+	    private CorvusSymbolTable symbolTable = new CorvusSymbolTable();
+	    private CorvusSymbol symbol;
+	    private CorvusProgram program = new CorvusProgram();
+	    private ArrayList<CorvusAbstractCommand> curThread = new ArrayList<CorvusAbstractCommand>();
+
+	    private String _readId;
+	    private String _writeId;
+	    private String _attrId;
+	    private String _attrContent;
+
+	    private void verifyId(String id){
+	        if(!symbolTable.exists(id)){
+	            throw new CorvusSemanticException("Variable '" + id + "' has not been declared");
+	        }
+	    }
+
+	    public void printCMD(){
+	        for(CorvusAbstractCommand cur : program.getCmd()){
+	            System.out.println(cur.toString());
+	        }
+	    }
 
 
 	public ProjLexer(CharStream input) {

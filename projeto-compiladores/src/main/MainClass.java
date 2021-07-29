@@ -1,6 +1,6 @@
 package main;
 
-import corvusExceptions.corvusSemanticException;
+import corvusExceptions.CorvusSemanticException;
 import corvusParser.ProjParser;
 import corvusParser.ProjLexer;
 import org.antlr.v4.runtime.CharStreams;
@@ -23,11 +23,11 @@ public class MainClass {
             parser = new ProjParser(tokenStream);
 
             parser.prog();
-
+            parser.printCMD();
             System.out.println("Compilation Successful");
         } catch (RecognitionException e){
             System.out.println("@@ RecognitionException -- " + e.getMessage());
-        } catch (corvusSemanticException e) {
+        } catch (CorvusSemanticException e) {
             System.out.println("@@ SemanticException -- " + e.getMessage());
         } catch (Exception e){
             System.out.println("@@ RuntimeException -- " + e.getMessage());

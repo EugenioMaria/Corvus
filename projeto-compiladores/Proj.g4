@@ -1,22 +1,47 @@
 grammar Proj;
 
 @header{
-    import corvusDataStructures.corvusSymbol;
-    import corvusDataStructures.corvusVariable;
-    import corvusDataStructures.corvusSymbolTable;
-    import corvusExceptions.corvusSemanticException;
+    import corvusDataStructures.CorvusSymbol;
+    import corvusDataStructures.CorvusVariable;
+    import corvusDataStructures.CorvusSymbolTable;
+    import corvusExceptions.CorvusSemanticException;
+    import corvusAST.CorvusAbstractCommand;
+    import corvusAST.CorvusProgram;
+    import corvusAST.CommandRead;
+    import corvusAST.CommandWrite;
+    import corvusAST.CommandAttr;
+    import java.util.ArrayList;
 }
 
 @members{
     private int _varType;
     private String _varName;
     private String _varValue;
-    private corvusSymbolTable symbolTable = new corvusSymbolTable();
-    private corvusSymbol symbol;
+    private CorvusSymbolTable symbolTable = new CorvusSymbolTable();
+    private CorvusSymbol symbol;
+    private CorvusProgram program = new CorvusProgram();
+    private ArrayList<CorvusAbstractCommand> curThread = new ArrayList<CorvusAbstractCommand>();
+
+    private String _readId;
+    private String _writeId;
+    private String _attrId;
+    private String _attrContent;
+
+    private void verifyId(String id){
+        if(!symbolTable.exists(id)){
+            throw new CorvusSemanticException("Variable '" + id + "' has not been declared");
+        }
+    }
+
+    public void printCMD(){
+        for(CorvusAbstractCommand cur : program.getCmd()){
+            System.out.println(cur.toString());
+        }
+    }
 }
 
 prog :
-    'program' OpenBraces decl codeBlock CloseBraces 'end'
+    'program' OpenBraces decl codeBlock CloseBraces 'end' { program.setCmd(curThread);}
 ;
 
 decl :
@@ -27,24 +52,24 @@ varDeclaration :
     type Identifier {
                         _varName = _input.LT(-1).getText();
                         _varValue = null;
-                        symbol = new corvusVariable(_varName,_varValue,_varType);
+                        symbol = new CorvusVariable(_varName,_varValue,_varType);
                         symbolTable.add(symbol);
                     } (Colon Identifier
                     {
                         _varName = _input.LT(-1).getText();
                         _varValue = null;
-                        symbol = new corvusVariable(_varName,_varValue,_varType);
+                        symbol = new CorvusVariable(_varName,_varValue,_varType);
                         symbolTable.add(symbol);
                     }
                     )* Semicolon
 ;
 
 type :
-    'int'   { _varType = corvusVariable.intVar; }
-    | 'float' { _varType = corvusVariable.floatVar; }
-    | 'string' { _varType = corvusVariable.stringVar; }
-    | 'list' { _varType = corvusVariable.listVar; }
-    | 'obj' { _varType = corvusVariable.objVar; }
+    'int'   { _varType = CorvusVariable.intVar; }
+    | 'float' { _varType = CorvusVariable.floatVar; }
+    | 'string' { _varType = CorvusVariable.stringVar; }
+    | 'list' { _varType = CorvusVariable.listVar; }
+    | 'obj' { _varType = CorvusVariable.objVar; }
 ;
 codeBlock :
     (command)*
@@ -55,25 +80,43 @@ command:
 ;
 
 read:
-    'read' OpenParentheses termo CloseParentheses Semicolon
+    'read' OpenParentheses Identifier
+    {
+        verifyId(_input.LT(-1).getText());
+        _readId = _input.LT(-1).getText();
+    }
+        CloseParentheses Semicolon
+    {
+        CommandRead cmd = new CommandRead(_readId);
+        curThread.add(cmd);
+    }
 ;
 
 write:
-    'write' OpenParentheses termo CloseParentheses Semicolon
+    'write' OpenParentheses termo {
+        _writeId = _input.LT(-1).getText();
+    } CloseParentheses Semicolon {
+        CommandWrite cmd = new CommandWrite(_writeId);
+        curThread.add(cmd);
+    }
 ;
 
 attribute:
     Identifier {
+      verifyId(_input.LT(-1).getText());
       _varName = _input.LT(-1).getText();
-      if(!symbolTable.exists(_varName)){
-         throw new corvusSemanticException("Variable '" + _varName + "' has not been declared");
-      }
+      _attrId = _varName;
     }
-    Attribute expression Semicolon
+    Attribute {
+      _attrContent = "";
+    } expression {
+        CommandAttr cmd = new CommandAttr(_attrId,_attrContent);
+        curThread.add(cmd);
+    } Semicolon
 ;
 
 expression:
-    termo ( Operation termo )*
+    termo ( Operation {_attrContent += _input.LT(-1).getText();} termo )*
 ;
 
 boolExpression:
@@ -82,12 +125,11 @@ boolExpression:
 
 termo:
     Identifier {
+        verifyId(_input.LT(-1).getText());
         _varName = _input.LT(-1).getText();
-        if(!symbolTable.exists(_varName)){
-            throw new corvusSemanticException("Variable '" + _varName + "' has not been declared");
-        }
+        _attrContent += _input.LT(-1).getText();
     }
-    | Integer | Float | String
+    | Integer {_attrContent += _input.LT(-1).getText();} | Float {_attrContent += _input.LT(-1).getText();} | String {_attrContent += _input.LT(-1).getText();}
 ;
 
 WhiteSpace: (' ' | '\t' | '\n' | '\r') -> skip;

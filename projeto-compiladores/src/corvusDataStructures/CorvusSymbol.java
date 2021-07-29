@@ -1,9 +1,9 @@
 package corvusDataStructures;
 
-public abstract class corvusSymbol {
+public abstract class CorvusSymbol {
     protected String name;
 
-    public corvusSymbol(String name){
+    public CorvusSymbol(String name){
         this.name = name;
     }
 

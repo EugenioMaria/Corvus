@@ -1,6 +1,6 @@
 package corvusDataStructures;
 
-public class corvusVariable extends corvusSymbol {
+public class CorvusVariable extends CorvusSymbol {
     public static final int intVar = 0;
     public static final int stringVar = 1;
     public static final int listVar = 2;
@@ -10,7 +10,7 @@ public class corvusVariable extends corvusSymbol {
     private int type;
     private String value;
 
-    public corvusVariable(String name, String value, int type){
+    public CorvusVariable(String name, String value, int type){
         super(name);
         this.type= type;
         this.value = value;
