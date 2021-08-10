@@ -6,7 +6,7 @@
         <PerGrammarGenerationSettings>
           <option name="fileName" value="$PROJECT_DIR$/projeto-compiladores/Proj.g4" />
           <option name="autoGen" value="true" />
-          <option name="outputDir" value="C:\Users\Gabriel Agostini\IdeaProjects\Corvus\projeto-compiladores\src" />
+          <option name="outputDir" value="C:\Users\Eugene\Desktop\ufabc\compiladores\Corvus\projeto-compiladores\src" />
           <option name="libDir" value="" />
           <option name="encoding" value="" />
           <option name="pkg" value="corvusParser" />
