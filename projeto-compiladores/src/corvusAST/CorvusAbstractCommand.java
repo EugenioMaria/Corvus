@@ -1,5 +1,5 @@
 package corvusAST;
 
 public abstract class CorvusAbstractCommand {
-    public abstract String generateJS();
+    public abstract String generateJava();
 }
