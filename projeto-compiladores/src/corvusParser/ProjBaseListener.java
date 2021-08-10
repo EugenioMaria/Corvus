@@ -12,6 +12,7 @@ package corvusParser;
     import corvusAST.CommandAttr;
     import corvusAST.CommandDecider;
     import corvusAST.CommandWhile;
+    import corvusAST.CommandVariable;
     import java.util.ArrayList;
     import java.util.Stack;
 

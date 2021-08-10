@@ -12,6 +12,7 @@ package corvusParser;
     import corvusAST.CommandAttr;
     import corvusAST.CommandDecider;
     import corvusAST.CommandWhile;
+    import corvusAST.CommandVariable;
     import java.util.ArrayList;
     import java.util.Stack;
 
@@ -107,9 +108,6 @@ public class ProjLexer extends Lexer {
 	}
 
 
-	    private int _varType;
-	    private String _varName;
-	    private String _varValue;
 	    private CorvusSymbolTable symbolTable = new CorvusSymbolTable();
 	    private Stack<ArrayList<CorvusAbstractCommand>> cmdStack = new Stack<ArrayList<CorvusAbstractCommand>>();
 	    private Stack<String> conditionStack = new Stack<String>();
@@ -125,6 +123,9 @@ public class ProjLexer extends Lexer {
 	    private String _attrId;
 	    private String _attrContent;
 	    private String _exprDecision;
+	    private int _varType;
+	    private String _varName;
+	    private String _varValue;
 
 	    private void verifyId(String id){
 	        if(!symbolTable.exists(id)){
@@ -137,7 +138,7 @@ public class ProjLexer extends Lexer {
 	            System.out.println(cur.toString());
 	        }
 	    }
-	    
+
 		public void generateCode(){
 			program.generateTarget();
 		}

@@ -12,14 +12,12 @@ grammar Proj;
     import corvusAST.CommandAttr;
     import corvusAST.CommandDecider;
     import corvusAST.CommandWhile;
+    import corvusAST.CommandVariable;
     import java.util.ArrayList;
     import java.util.Stack;
 }
 
 @members{
-    private int _varType;
-    private String _varName;
-    private String _varValue;
     private CorvusSymbolTable symbolTable = new CorvusSymbolTable();
     private Stack<ArrayList<CorvusAbstractCommand>> cmdStack = new Stack<ArrayList<CorvusAbstractCommand>>();
     private Stack<String> conditionStack = new Stack<String>();
@@ -35,6 +33,9 @@ grammar Proj;
     private String _attrId;
     private String _attrContent;
     private String _exprDecision;
+    private int _varType;
+    private String _varName;
+    private String _varValue;
 
     private void verifyId(String id){
         if(!symbolTable.exists(id)){
@@ -66,19 +67,31 @@ decl :
 ;
 
 varDeclaration :
-    type Identifier {
-                        _varName = _input.LT(-1).getText();
-                        _varValue = null;
-                        symbol = new CorvusVariable(_varName,_varValue,_varType);
-                        symbolTable.add(symbol);
-                    } (Colon Identifier
-                    {
-                        _varName = _input.LT(-1).getText();
-                        _varValue = null;
-                        symbol = new CorvusVariable(_varName,_varValue,_varType);
-                        symbolTable.add(symbol);
-                    }
-                    )* Semicolon
+    type
+        {
+//            _varType = _input.LT(-1).getText();
+        }
+    Identifier
+        {
+            _varName = _input.LT(-1).getText();
+            _varValue = null;
+            symbol = new CorvusVariable(_varName,_varValue,_varType);
+            symbolTable.add(symbol);
+
+//            CommandVariable cmd = new CommandVariable(_varName,_varValue,_varType);
+//            cmdStack.peek().add(cmd);
+        }
+    (Colon Identifier
+        {
+            _varName = _input.LT(-1).getText();
+            _varValue = null;
+            symbol = new CorvusVariable(_varName,_varValue,_varType);
+            symbolTable.add(symbol);
+
+//            CommandVariable cmd = new CommandVariable(_varName,_varValue,_varType);
+//            cmdStack.peek().add(cmd);
+        }
+    )* Semicolon
 ;
 
 type :
@@ -101,14 +114,9 @@ command:
 ;
 
 read:
-    'read' OpenParentheses Identifier
+    'read' OpenParentheses CloseParentheses Semicolon
     {
-        verifyId(_input.LT(-1).getText());
-        _readId = _input.LT(-1).getText();
-    }
-        CloseParentheses Semicolon
-    {
-        CommandRead cmd = new CommandRead(_readId);
+        CommandRead cmd = new CommandRead();
         cmdStack.peek().add(cmd);
     }
 ;

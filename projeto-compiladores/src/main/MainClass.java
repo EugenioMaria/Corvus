@@ -1,5 +1,6 @@
 package main;
 
+import java.util.Scanner;
 import corvusExceptions.CorvusSemanticException;
 import corvusParser.ProjParser;
 import corvusParser.ProjLexer;
@@ -13,6 +14,7 @@ import org.antlr.v4.runtime.RecognitionException;
 
 public class MainClass {
     public static void main(String[] args){
+        Scanner _scan = new Scanner(System.in);
         try {
             ProjLexer lexer;
             ProjParser parser;

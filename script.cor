@@ -7,30 +7,32 @@ program {
     } else{
         write('teste');
     }
+    write('teste31425');
 
     a = 7 + 2/5 + 2+1/b;
 
+    read();
     if(b==7){
-        read(b);
+        read();
     } else{
-        read(c);
+        read();
     }
     write("Aaaaa");
     if(a){
         if(7){
             b = 2+3;
         }
-        read(c);
+        read();
         write("Aaaaa");
         a = 7+ 2;
     } else {
-        read(a);
+        read();
     }
 
     while(a){
         while(b){
             if(a>200){
-                read(b);
+                read();
             }
         }
     }
