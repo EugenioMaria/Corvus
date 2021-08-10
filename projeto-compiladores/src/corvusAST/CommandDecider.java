@@ -25,6 +25,19 @@ public class CommandDecider extends CorvusAbstractCommand{
 
     @Override
     public String generateJava() {
-        return null;
+        StringBuilder cmd = new StringBuilder();
+        cmd.append("    if(" + condition +") {\n");
+        for(CorvusAbstractCommand curr :cmdTrue){
+            cmd.append("    " + curr.generateJava());
+        }
+        if(cmdFalse != null){
+            cmd.append("    } else {\n");
+            for(CorvusAbstractCommand curr: cmdFalse){
+                cmd.append("    " + curr.generateJava());
+            }
+
+        }
+        cmd.append("    }\n");
+        return cmd.toString();
     }
 }

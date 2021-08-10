@@ -8,6 +8,6 @@ public class CommandRead extends CorvusAbstractCommand {
 
     @Override
     public String generateJava() {
-        return "_scan.nextLine();";
+        return "    _scan.nextLine();\n";
     }
 }

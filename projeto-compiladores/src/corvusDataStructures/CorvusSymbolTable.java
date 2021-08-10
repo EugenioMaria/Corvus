@@ -6,13 +6,13 @@ import java.util.HashMap;
 import java.util.ArrayList;
 
 public class CorvusSymbolTable {
-    private HashMap<String, CorvusSymbol> map;
+    private HashMap<String, CorvusVariable> map;
 
     public CorvusSymbolTable(){
-        map = new HashMap<String, CorvusSymbol>();
+        map = new HashMap<String, CorvusVariable>();
     }
 
-    public void add(CorvusSymbol symbol){
+    public void add(CorvusVariable symbol){
         if(!exists(symbol.name)){
             map.put(symbol.getName(), symbol);
         } else {
@@ -24,13 +24,13 @@ public class CorvusSymbolTable {
         return map.get(symbolName) != null;
     }
 
-    public CorvusSymbol get(String symbolName){
+    public CorvusVariable get(String symbolName){
         return map.get(symbolName);
     }
 
-    public ArrayList<CorvusSymbol> getAll(){
-        ArrayList<CorvusSymbol> lista = new ArrayList<CorvusSymbol>();
-        for (CorvusSymbol symbol : map.values()) {
+    public ArrayList<CorvusVariable> getAll(){
+        ArrayList<CorvusVariable> lista = new ArrayList<CorvusVariable>();
+        for (CorvusVariable symbol : map.values()) {
             lista.add(symbol);
         }
         return lista;

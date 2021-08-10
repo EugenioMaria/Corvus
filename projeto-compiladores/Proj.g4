@@ -12,7 +12,6 @@ grammar Proj;
     import corvusAST.CommandAttr;
     import corvusAST.CommandDecider;
     import corvusAST.CommandWhile;
-    import corvusAST.CommandVariable;
     import java.util.ArrayList;
     import java.util.Stack;
 }
@@ -21,7 +20,7 @@ grammar Proj;
     private CorvusSymbolTable symbolTable = new CorvusSymbolTable();
     private Stack<ArrayList<CorvusAbstractCommand>> cmdStack = new Stack<ArrayList<CorvusAbstractCommand>>();
     private Stack<String> conditionStack = new Stack<String>();
-    private CorvusSymbol symbol;
+    private CorvusVariable symbol;
     private CorvusProgram program = new CorvusProgram();
     private ArrayList<CorvusAbstractCommand> curThread;
     private ArrayList<CorvusAbstractCommand> cmdTrue;

@@ -2,6 +2,7 @@ package corvusAST;
 
 import corvusDataStructures.CorvusSymbol;
 import corvusDataStructures.CorvusSymbolTable;
+import corvusDataStructures.CorvusVariable;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -42,10 +43,10 @@ public class CorvusProgram {
         str.append("public class MainClass {\n");
         str.append("    public static void main(String args[]){\n");
         str.append("    Scanner _scan = new Scanner(System.in);\n");
-        System.out.println("varTable");
-        System.out.println(varTable);
-        for(CorvusSymbol symbol: varTable.getAll()){
-            str.append(symbol.generateJava()+"\n");
+        //System.out.println("varTable");
+        //System.out.println(varTable);
+        for(CorvusVariable variable: varTable.getAll()){
+            str.append(variable.generateJava()+"\n");
         }
         for(CorvusAbstractCommand command: cmd){
             str.append(command.generateJava()+"\n");

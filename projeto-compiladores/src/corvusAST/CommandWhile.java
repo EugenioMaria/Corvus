@@ -22,6 +22,10 @@ public class CommandWhile extends CorvusAbstractCommand {
 
     @Override
     public String generateJava() {
-        return "while(" + condition + "){" + cmdList + "}";
+        StringBuilder cmd = new StringBuilder();
+        for (CorvusAbstractCommand curr : cmdList){
+            cmd.append(curr.generateJava());
+        }
+        return "    while(" + condition + "){\n    " + cmd + "    }\n";
     }
 }

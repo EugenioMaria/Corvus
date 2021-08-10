@@ -25,7 +25,7 @@ public class MainClass {
             parser = new ProjParser(tokenStream);
 
             parser.prog();
-            parser.printCMD();
+            //parser.printCMD();
             parser.generateCode();
             System.out.println("Compilation Successful");
         } catch (RecognitionException e){
