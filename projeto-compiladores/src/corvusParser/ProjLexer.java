@@ -1,4 +1,4 @@
-// Generated from C:/Users/Gabriel Agostini/IdeaProjects/projeto-compiladores-ufabc/projeto-compiladores\Proj.g4 by ANTLR 4.9.1
+// Generated from C:/Users/Gabriel Agostini/IdeaProjects/Corvus/projeto-compiladores\Proj.g4 by ANTLR 4.9.1
 package corvusParser;
 
     import corvusDataStructures.CorvusSymbol;
@@ -10,7 +10,10 @@ package corvusParser;
     import corvusAST.CommandRead;
     import corvusAST.CommandWrite;
     import corvusAST.CommandAttr;
+    import corvusAST.CommandDecider;
+    import corvusAST.CommandWhile;
     import java.util.ArrayList;
+    import java.util.Stack;
 
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
@@ -108,14 +111,20 @@ public class ProjLexer extends Lexer {
 	    private String _varName;
 	    private String _varValue;
 	    private CorvusSymbolTable symbolTable = new CorvusSymbolTable();
+	    private Stack<ArrayList<CorvusAbstractCommand>> cmdStack = new Stack<ArrayList<CorvusAbstractCommand>>();
+	    private Stack<String> conditionStack = new Stack<String>();
 	    private CorvusSymbol symbol;
 	    private CorvusProgram program = new CorvusProgram();
-	    private ArrayList<CorvusAbstractCommand> curThread = new ArrayList<CorvusAbstractCommand>();
+	    private ArrayList<CorvusAbstractCommand> curThread;
+	    private ArrayList<CorvusAbstractCommand> cmdTrue;
+	    private ArrayList<CorvusAbstractCommand> cmdFalse;
+	    private ArrayList<CorvusAbstractCommand> cmdWhile;
 
 	    private String _readId;
 	    private String _writeId;
 	    private String _attrId;
 	    private String _attrContent;
+	    private String _exprDecision;
 
 	    private void verifyId(String id){
 	        if(!symbolTable.exists(id)){

@@ -49,4 +49,9 @@ public class CorvusVariable extends CorvusSymbol {
                 ", value='" + value + '\'' +
                 '}';
     }
+
+    @Override
+    public String generatePY() {
+        return null;
+    }
 }

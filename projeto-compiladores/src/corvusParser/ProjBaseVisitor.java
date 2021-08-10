@@ -1,4 +1,4 @@
-// Generated from C:/Users/Gabriel Agostini/IdeaProjects/projeto-compiladores-ufabc/projeto-compiladores\Proj.g4 by ANTLR 4.9.1
+// Generated from C:/Users/Gabriel Agostini/IdeaProjects/Corvus/projeto-compiladores\Proj.g4 by ANTLR 4.9.1
 package corvusParser;
 
     import corvusDataStructures.CorvusSymbol;
@@ -10,7 +10,10 @@ package corvusParser;
     import corvusAST.CommandRead;
     import corvusAST.CommandWrite;
     import corvusAST.CommandAttr;
+    import corvusAST.CommandDecider;
+    import corvusAST.CommandWhile;
     import java.util.ArrayList;
+    import java.util.Stack;
 
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
@@ -121,13 +124,6 @@ public class ProjBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements P
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitIfElseCMD(ProjParser.IfElseCMDContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitElseIfCMD(ProjParser.ElseIfCMDContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

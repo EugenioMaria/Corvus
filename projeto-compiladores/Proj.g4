@@ -10,7 +10,10 @@ grammar Proj;
     import corvusAST.CommandRead;
     import corvusAST.CommandWrite;
     import corvusAST.CommandAttr;
+    import corvusAST.CommandDecider;
+    import corvusAST.CommandWhile;
     import java.util.ArrayList;
+    import java.util.Stack;
 }
 
 @members{
@@ -18,14 +21,20 @@ grammar Proj;
     private String _varName;
     private String _varValue;
     private CorvusSymbolTable symbolTable = new CorvusSymbolTable();
+    private Stack<ArrayList<CorvusAbstractCommand>> cmdStack = new Stack<ArrayList<CorvusAbstractCommand>>();
+    private Stack<String> conditionStack = new Stack<String>();
     private CorvusSymbol symbol;
     private CorvusProgram program = new CorvusProgram();
-    private ArrayList<CorvusAbstractCommand> curThread = new ArrayList<CorvusAbstractCommand>();
+    private ArrayList<CorvusAbstractCommand> curThread;
+    private ArrayList<CorvusAbstractCommand> cmdTrue;
+    private ArrayList<CorvusAbstractCommand> cmdFalse;
+    private ArrayList<CorvusAbstractCommand> cmdWhile;
 
     private String _readId;
     private String _writeId;
     private String _attrId;
     private String _attrContent;
+    private String _exprDecision;
 
     private void verifyId(String id){
         if(!symbolTable.exists(id)){
@@ -41,7 +50,10 @@ grammar Proj;
 }
 
 prog :
-    'program' OpenBraces decl codeBlock CloseBraces 'end' { program.setCmd(curThread);}
+    'program' OpenBraces decl codeBlock CloseBraces 'end'
+    {
+        program.setCmd(cmdStack.pop());
+    }
 ;
 
 decl :
@@ -72,11 +84,15 @@ type :
     | 'obj' { _varType = CorvusVariable.objVar; }
 ;
 codeBlock :
+    {
+        curThread = new ArrayList<CorvusAbstractCommand>();
+        cmdStack.push(curThread);
+    }
     (command)*
 ;
 
 command:
-    read | write | attribute | ifCMD | ifElseCMD | elseIfCMD | whileCMD | varDeclaration
+    read | write | attribute | ifCMD | ifElseCMD | whileCMD | varDeclaration // | elseIfCMD
 ;
 
 read:
@@ -88,7 +104,7 @@ read:
         CloseParentheses Semicolon
     {
         CommandRead cmd = new CommandRead(_readId);
-        curThread.add(cmd);
+        cmdStack.peek().add(cmd);
     }
 ;
 
@@ -97,7 +113,7 @@ write:
         _writeId = _input.LT(-1).getText();
     } CloseParentheses Semicolon {
         CommandWrite cmd = new CommandWrite(_writeId);
-        curThread.add(cmd);
+        cmdStack.peek().add(cmd);
     }
 ;
 
@@ -111,7 +127,7 @@ attribute:
       _attrContent = "";
     } expression {
         CommandAttr cmd = new CommandAttr(_attrId,_attrContent);
-        curThread.add(cmd);
+        cmdStack.peek().add(cmd);
     } Semicolon
 ;
 
@@ -120,7 +136,7 @@ expression:
 ;
 
 boolExpression:
-    termo (LogicalOperator termo)*
+    termo (LogicalOperator {_attrContent += _input.LT(-1).getText();} termo)*
 ;
 
 termo:
@@ -154,21 +170,74 @@ IfSintax: 'if' | 'IF';
 ElseSintax: 'else' | 'ELSE';
 
 ifCMD:
-    IfSintax OpenParentheses boolExpression CloseParentheses OpenBraces codeBlock CloseBraces
+    IfSintax
+    {_attrContent = "";}
+    OpenParentheses
+    boolExpression
+    CloseParentheses
+    {
+        _exprDecision = _attrContent;
+        conditionStack.push(_exprDecision);
+    }
+    OpenBraces
+    codeBlock
+    CloseBraces
+    {
+        cmdTrue = cmdStack.pop();
+        CommandDecider cmd = new CommandDecider(conditionStack.pop(), cmdTrue, null);
+        cmdStack.peek().add(cmd);
+    }
 ;
 ifElseCMD:
-    ifCMD ElseSintax OpenBraces codeBlock CloseBraces
+    IfSintax
+    {_attrContent = "";}
+    OpenParentheses
+    boolExpression
+    CloseParentheses
+    {
+        _exprDecision = _attrContent;
+        conditionStack.push(_exprDecision);
+    }
+    OpenBraces
+    codeBlock
+    CloseBraces
+    {
+        cmdTrue = cmdStack.pop();
+    }
+    ElseSintax
+    OpenBraces
+    codeBlock
+    CloseBraces
+    {
+        cmdFalse = cmdStack.pop();
+        CommandDecider cmd = new CommandDecider(conditionStack.pop(), cmdTrue, cmdFalse);
+        cmdStack.peek().add(cmd);
+    }
 ;
-elseIfCMD:
-    ifCMD (ElseSintax ifCMD)+
-;
+//elseIfCMD:
+//    ifCMD (ElseSintax ifCMD)+
+//;
 
 WhileSintax: 'while' | 'WHILE';
 
 whileCMD:
-    WhileSintax OpenParentheses boolExpression CloseParentheses OpenBraces
-        codeBlock
+    WhileSintax
+    OpenParentheses
+    {_attrContent = "";}
+    boolExpression
+    CloseParentheses
+    {
+        _exprDecision = _attrContent;
+        conditionStack.push(_exprDecision);
+    }
+    OpenBraces
+    codeBlock
     CloseBraces
+    {
+        cmdWhile = cmdStack.pop();
+        CommandWhile cmd  = new CommandWhile(conditionStack.pop(),cmdWhile);
+        cmdStack.peek().add(cmd);
+    }
 ;
 
 //Deixar aqui para não idenficar um "if", "while", etc como Identifier

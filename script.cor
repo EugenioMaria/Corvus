@@ -4,14 +4,35 @@ program {
     list listaItens;
     if(listaItens){
         write("aBC");
-    } else {
+    } else{
         write('teste');
     }
+
     a = 7 + 2/5 + 2+1/b;
-    if("a"){
+
+    if(b==7){
         read(b);
-    } else if("B"){
+    } else{
         read(c);
+    }
+    write("Aaaaa");
+    if(a){
+        if(7){
+            b = 2+3;
+        }
+        read(c);
+        write("Aaaaa");
+        a = 7+ 2;
+    } else {
+        read(a);
+    }
+
+    while(a){
+        while(b){
+            if(a>200){
+                read(b);
+            }
+        }
     }
 } end
 

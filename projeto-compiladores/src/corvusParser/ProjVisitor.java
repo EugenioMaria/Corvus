@@ -1,4 +1,4 @@
-// Generated from C:/Users/Gabriel Agostini/IdeaProjects/projeto-compiladores-ufabc/projeto-compiladores\Proj.g4 by ANTLR 4.9.1
+// Generated from C:/Users/Gabriel Agostini/IdeaProjects/Corvus/projeto-compiladores\Proj.g4 by ANTLR 4.9.1
 package corvusParser;
 
     import corvusDataStructures.CorvusSymbol;
@@ -10,7 +10,10 @@ package corvusParser;
     import corvusAST.CommandRead;
     import corvusAST.CommandWrite;
     import corvusAST.CommandAttr;
+    import corvusAST.CommandDecider;
+    import corvusAST.CommandWhile;
     import java.util.ArrayList;
+    import java.util.Stack;
 
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -106,12 +109,6 @@ public interface ProjVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitIfElseCMD(ProjParser.IfElseCMDContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link ProjParser#elseIfCMD}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitElseIfCMD(ProjParser.ElseIfCMDContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ProjParser#whileCMD}.
 	 * @param ctx the parse tree

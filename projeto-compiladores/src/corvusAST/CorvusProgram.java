@@ -2,6 +2,8 @@ package corvusAST;
 
 import corvusDataStructures.CorvusSymbolTable;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 
 public class CorvusProgram {
@@ -34,6 +36,20 @@ public class CorvusProgram {
     }
 
     public void generateTarget(){
+        StringBuilder str = new StringBuilder();
+        str.append("import java.util.scanner;\n");
+        str.append("public class MainClass {\n");
+        str.append("    public static void main(String args[]){\n");
+        str.append("    _scan = new Scanner(System.in);\n");
+
+
+        str.append("    }");
+        str.append("}");
+        try {
+            FileWriter fr = new FileWriter(new File("corScript.java"));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
 }
