@@ -24,6 +24,7 @@ public class MainClass {
 
             parser.prog();
             parser.printCMD();
+            parser.generateCode();
             System.out.println("Compilation Successful");
         } catch (RecognitionException e){
             System.out.println("@@ RecognitionException -- " + e.getMessage());

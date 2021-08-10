@@ -1,4 +1,4 @@
-// Generated from C:/Users/Gabriel Agostini/IdeaProjects/Corvus/projeto-compiladores\Proj.g4 by ANTLR 4.9.1
+// Generated from C:/Users/Eugene/Desktop/ufabc/compiladores/Corvus/projeto-compiladores\Proj.g4 by ANTLR 4.9.1
 package corvusParser;
 
     import corvusDataStructures.CorvusSymbol;
@@ -137,6 +137,10 @@ public class ProjLexer extends Lexer {
 	            System.out.println(cur.toString());
 	        }
 	    }
+	    
+		public void generateCode(){
+			program.generateTarget();
+		}
 
 
 	public ProjLexer(CharStream input) {

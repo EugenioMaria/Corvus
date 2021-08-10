@@ -47,11 +47,16 @@ grammar Proj;
             System.out.println(cur.toString());
         }
     }
+
+	public void generateCode(){
+		program.generateTarget();
+	}
 }
 
 prog :
     'program' OpenBraces decl codeBlock CloseBraces 'end'
     {
+        program.setVarTable(symbolTable);
         program.setCmd(cmdStack.pop());
     }
 ;

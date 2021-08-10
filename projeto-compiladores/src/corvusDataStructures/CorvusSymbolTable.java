@@ -3,6 +3,7 @@ package corvusDataStructures;
 import corvusExceptions.CorvusSemanticException;
 
 import java.util.HashMap;
+import java.util.ArrayList;
 
 public class CorvusSymbolTable {
     private HashMap<String, CorvusSymbol> map;
@@ -27,4 +28,11 @@ public class CorvusSymbolTable {
         return map.get(symbolName);
     }
 
+    public ArrayList<CorvusSymbol> getAll(){
+        ArrayList<CorvusSymbol> lista = new ArrayList<CorvusSymbol>();
+        for (CorvusSymbol symbol : map.values()) {
+            lista.add(symbol);
+        }
+        return lista;
+    }
 }

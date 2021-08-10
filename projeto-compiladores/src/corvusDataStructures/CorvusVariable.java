@@ -51,7 +51,7 @@ public class CorvusVariable extends CorvusSymbol {
     }
 
     @Override
-    public String generatePY() {
+    public String generateJava() {
         return null;
     }
 }
