@@ -26,18 +26,17 @@ public class CommandDecider extends CorvusAbstractCommand{
     @Override
     public String generateJava() {
         StringBuilder cmd = new StringBuilder();
-        cmd.append("    if(" + condition +") {\n");
+        cmd.append("if(" + condition +") {\n");
         for(CorvusAbstractCommand curr :cmdTrue){
-            cmd.append("    " + curr.generateJava());
+            cmd.append("\t\t" + curr.generateJava().replaceAll("\n","\n\t"));
         }
         if(cmdFalse != null){
-            cmd.append("    } else {\n");
+            cmd.append("} else {\n");
             for(CorvusAbstractCommand curr: cmdFalse){
-                cmd.append("    " + curr.generateJava());
+                cmd.append("\t\t" + curr.generateJava().replaceAll("\n","\n\t"));
             }
-
         }
-        cmd.append("    }\n");
+        cmd.append("}\n");
         return cmd.toString();
     }
 }

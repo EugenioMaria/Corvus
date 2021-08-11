@@ -1,6 +1,12 @@
 package corvusAST;
 
 public class CommandRead extends CorvusAbstractCommand {
+    String type;
+
+    public CommandRead(String type) {
+        this.type = type;
+    }
+
     @Override
     public String toString() {
         return "CommandRead";
@@ -8,6 +14,7 @@ public class CommandRead extends CorvusAbstractCommand {
 
     @Override
     public String generateJava() {
-        return "    _scan.nextLine();\n";
+        type = type.substring(0, 1).toUpperCase() + type.substring(1);
+        return "_scan.next"+type+"()\n";
     }
 }

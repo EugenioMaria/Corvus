@@ -1,50 +1,33 @@
-import java.util.scanner;
+import java.util.List;
+import java.util.Scanner;
 public class MainClass {
     public static void main(String args[]){
-    Scanner _scan = new Scanner(System.in);
-    String texto;
-    int a;
-    int b;
-    int c;
-    [] listaItens;
-    if(listaItens) {
-        System.out.println("aBC")
-    } else {
-        System.out.println('teste')
-    }
-
-    System.out.println('teste31425')
-
-    a = 7+2/5+2+1/b;
-
-    _scan.nextLine();
-
-    if(b==7) {
-        _scan.nextLine();
-    } else {
-        _scan.nextLine();
-    }
-
-    System.out.println("Aaaaa")
-
-    if(a) {
-        if(7) {
-        b = 2+3;
-    }
-        _scan.nextLine();
-        System.out.println("Aaaaa")
-        a = 7+2;
-    } else {
-        _scan.nextLine();
-    }
-
-    while(a){
-        while(b){
-        if(a>200) {
-        _scan.nextLine();
-    }
-    }
-    }
-
+        Scanner _scan = new Scanner(System.in);
+		int a;
+		int b;
+		int c;
+		int d;
+		a = 1;
+	
+		b = 2;
+	
+		c = 1;
+	
+		d = 10;
+	
+		if(a<b) {
+			System.out.println(a);
+				System.out.println(a);
+				System.out.println(a);
+		}
+	
+		while(a!=2){
+			d = d-1;
+			a = _scan.nextInt()
+		;
+			System.out.println(d);
+			System.out.println(a);
+		}
+	
     }
 }

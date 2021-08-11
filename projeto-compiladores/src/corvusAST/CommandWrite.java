@@ -16,6 +16,6 @@ public class CommandWrite extends CorvusAbstractCommand {
 
     @Override
     public String generateJava() {
-        return "    System.out.println(" + id + ")\n";
+        return "System.out.println(" + id + ");\n";
     }
 }

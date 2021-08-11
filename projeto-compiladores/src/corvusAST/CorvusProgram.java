@@ -39,17 +39,16 @@ public class CorvusProgram {
 
     public void generateTarget(){
         StringBuilder str = new StringBuilder();
-        str.append("import java.util.scanner;\n");
+        str.append("import java.util.List;\n");
+        str.append("import java.util.Scanner;\n");
         str.append("public class MainClass {\n");
         str.append("    public static void main(String args[]){\n");
-        str.append("    Scanner _scan = new Scanner(System.in);\n");
-        //System.out.println("varTable");
-        //System.out.println(varTable);
+        str.append("        Scanner _scan = new Scanner(System.in);\n");
         for(CorvusVariable variable: varTable.getAll()){
-            str.append(variable.generateJava()+"\n");
+            str.append("\t\t"+variable.generateJava().replaceAll("\n","\n\t")+"\n");
         }
         for(CorvusAbstractCommand command: cmd){
-            str.append(command.generateJava()+"\n");
+            str.append("\t\t"+command.generateJava().replaceAll("\n","\n\t")+"\n");
         }
 
         str.append("    }\n");

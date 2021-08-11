@@ -80,6 +80,7 @@ varDeclaration :
 //            CommandVariable cmd = new CommandVariable(_varName,_varValue,_varType);
 //            cmdStack.peek().add(cmd);
         }
+
     (Colon Identifier
         {
             _varName = _input.LT(-1).getText();
@@ -113,11 +114,7 @@ command:
 ;
 
 read:
-    'read' OpenParentheses CloseParentheses Semicolon
-    {
-        CommandRead cmd = new CommandRead();
-        cmdStack.peek().add(cmd);
-    }
+    'read' OpenParentheses CloseParentheses Semicolon?
 ;
 
 write:
@@ -137,10 +134,17 @@ attribute:
     }
     Attribute {
       _attrContent = "";
-    } expression {
+    }
+    (expression {
         CommandAttr cmd = new CommandAttr(_attrId,_attrContent);
         cmdStack.peek().add(cmd);
-    } Semicolon
+    }
+    | read {
+        CommandRead cmdRead = new CommandRead(symbolTable.get(_varName).getTypeString());
+        CommandAttr cmd = new CommandAttr(_attrId,cmdRead.generateJava());
+        cmdStack.peek().add(cmd);
+    })
+    Semicolon
 ;
 
 expression:
@@ -148,7 +152,7 @@ expression:
 ;
 
 boolExpression:
-    termo (LogicalOperator {_attrContent += _input.LT(-1).getText();} termo)*
+    termo (LogicalOperator {_attrContent += _input.LT(-1).getText();} termo)
 ;
 
 termo:
@@ -157,7 +161,9 @@ termo:
         _varName = _input.LT(-1).getText();
         _attrContent += _input.LT(-1).getText();
     }
-    | Integer {_attrContent += _input.LT(-1).getText();} | Float {_attrContent += _input.LT(-1).getText();} | String {_attrContent += _input.LT(-1).getText();}
+    | Integer {_attrContent += _input.LT(-1).getText();}
+    | Float {_attrContent += _input.LT(-1).getText();}
+    | String {_attrContent += _input.LT(-1).getText();}
 ;
 
 WhiteSpace: (' ' | '\t' | '\n' | '\r') -> skip;
@@ -175,7 +181,7 @@ Attribute: '=';
 //Possuir 2 tipos de variáveis (pelo menos 1 deles String)
 Integer: [0-9];
 Float: [0-9]+ ( '.' [0-9]+ )?;
-String: ( '\'' | '"' ) (Char)* ( '\'' | '"' );
+String: ( '"' ) (Char)* ( '"' );
 
 //Possuir a instrução if-else
 IfSintax: 'if' | 'IF';

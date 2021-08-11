@@ -6,7 +6,7 @@ public class CorvusVariable extends CorvusSymbol {
     public static final int listVar = 2;
     public static final int objVar = 3;
     public static final int floatVar = 4;
-    public static final String [] typeList = {"int","String","[]","obj","float"};
+    public static final String [] typeList = {"int","String","List","obj","float"};
 
     private int type;
     private String value;
@@ -32,7 +32,11 @@ public class CorvusVariable extends CorvusSymbol {
     }
 
     public int getType() {
-        return type;
+        return this.type;
+    }
+
+    public String getTypeString() {
+        return this.typeList[this.type];
     }
 
     public void setValue(String value) {
@@ -53,6 +57,6 @@ public class CorvusVariable extends CorvusSymbol {
 
     @Override
     public String generateJava() {
-        return "    " + typeList[this.type] + " " + this.name + ";";
+        return typeList[this.type] + " " + this.name + ";";
     }
 }

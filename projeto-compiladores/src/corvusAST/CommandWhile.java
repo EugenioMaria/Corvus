@@ -24,8 +24,8 @@ public class CommandWhile extends CorvusAbstractCommand {
     public String generateJava() {
         StringBuilder cmd = new StringBuilder();
         for (CorvusAbstractCommand curr : cmdList){
-            cmd.append(curr.generateJava());
+            cmd.append("\t"+curr.generateJava().replaceAll("\n","\n\t"));
         }
-        return "    while(" + condition + "){\n    " + cmd + "    }\n";
+        return "while(" + condition + "){\n\t" + cmd + "}\n";
     }
 }

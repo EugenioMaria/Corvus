@@ -20,6 +20,6 @@ public class CommandAttr extends CorvusAbstractCommand{
 
     @Override
     public String generateJava() {
-        return "    " + id + " = " + expr + ";\n";
+        return id + " = " + expr + ";\n";
     }
 }
