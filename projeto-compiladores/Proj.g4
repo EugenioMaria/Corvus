@@ -328,7 +328,7 @@ whileCMD:
 
 //Deixar aqui para não idenficar um "if", "while", etc como Identifier
 Identifier: [a-z] ( [a-z] | [A-Z] | [0-9] )*;
-Char: ( [a-z] | [A-Z] | [0-9]) ;
+Char: ( [a-z] | [A-Z] | [0-9] | '\\' ) ;
 
 //Question mark stands for: zero or one
 //Plus stands for: one or more

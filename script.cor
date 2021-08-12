@@ -5,4 +5,20 @@ program{
 
     quantidade = read();
 
+    write("1 1 ");
+    quantidade = quantidade - 2;
+
+    int numero1;
+    int numero2;
+    numero1 = 1;
+    numero2 = 1;
+    while(0 < quantidade){
+        int numeroFinal;
+        numeroFinal = numero1 + numero2;
+        write(numeroFinal);
+        write(" ");
+        numero1 = numero2;
+        numero2 = numeroFinal;
+        quantidade = quantidade - 1;
+    }
 } end
