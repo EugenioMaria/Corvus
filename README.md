@@ -14,12 +14,12 @@ Caso haja o interesse de aprender mais sobre o funcionamento de um compilador, r
       > Inicialmente criou-se os tipos ```int``` e ```string```. A declaração é feita conforme abaixo: 
    
   ```
-          program {
-          
-            int a;
-            string b;
-          
-          } end
+             program {
+
+               int a;
+               string b;
+
+             } end
           
  ```        
  
@@ -28,25 +28,25 @@ Caso haja o interesse de aprender mais sobre o funcionamento de um compilador, r
       > A instrução ```else``` é opcional, a condicional pode receber uma variável booleana, uma expressão booleana ou as palavras reservadas ```true``` e ```false```. Exemplo de uso:
 
   ```
-          program {
-          
-            int a;
-            boolean b;
-            
-            b = true;
-            a = 2;
-            
-            if(b){
-               if(a>=0){
-                  write(a);
+             program {
+
+               int a;
+               boolean b;
+
+               b = true;
+               a = 2;
+
+               if(b){
+                  if(a>=0){
+                     write(a);
+                  }
+               } else {
+                  if(true){
+                     a = read();
+                  }
                }
-            } else {
-               if(true){
-                  a = read();
-               }
-            }
-          
-          } end
+
+             } end
           
  ```
 
