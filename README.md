@@ -1,6 +1,6 @@
 # Corvus - Projeto disciplina de compiladores da UFABC.
 
-### Esse projeto possui apenas fins ditáticos, sendo um requisito necessário para aprovação na disciplina de Compiladores da UFABC. O compilador foi implementado seguindo-se os conceitos teóricos e práticos que foram introduzidos durante as aulas. O compilador foi apelidado de "Corvus" e transpila um código em linguagem ".cor" para a linguagem Java.
+Esse projeto possui apenas fins ditáticos, sendo um requisito necessário para aprovação na disciplina de Compiladores da UFABC. O compilador foi implementado seguindo-se os conceitos teóricos e práticos que foram introduzidos durante as aulas. O compilador foi apelidado de "Corvus" e transpila um código em linguagem ".cor" para a linguagem Java.
 
 ### Alunos: Eugenio Maria - RA:  e  Gabriel Agostini - RA: 11201721571
 
