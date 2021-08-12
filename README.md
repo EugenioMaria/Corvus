@@ -19,7 +19,7 @@ Caso haja o interesse de aprender mais sobre o funcionamento de um compilador, r
             int a;
             string b;
           
-          } end;
+          } end
           
  ```        
  
@@ -46,7 +46,7 @@ Caso haja o interesse de aprender mais sobre o funcionamento de um compilador, r
                }
             }
           
-          } end;
+          } end
           
  ```
 
@@ -71,7 +71,7 @@ Caso haja o interesse de aprender mais sobre o funcionamento de um compilador, r
                   }
                }
 
-             } end;
+             } end
 
     ```
 
