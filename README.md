@@ -7,8 +7,8 @@ Esse projeto possui apenas fins ditáticos, sendo um requisito necessário para 
 Caso haja o interesse de aprender mais sobre o funcionamento de um compilador, recomendamos fortemente o contéudo 💯% gratuito oferecido pelo Professor Isidro, todas as aulas do curso de compiladores estão disponíveis no YouTube, **[acesse aqui](https://www.youtube.com/watch?v=gxlxHYv-9oo&list=PLjcmNukBom6--0we1zrpoUE2GuRD-Me6W)**
 
 #### Requisitos mínimos implementados:
-- [X] Possuir dois tipos de variáveis (pelo menos 1 deles String)
-> Inicialmente criou-se os tipos ```int``` e ```string```
+&nbsp;&nbsp;&nbsp;&nbsp - [X] Possuir dois tipos de variáveis (pelo menos 1 deles String)
+&nbsp;&nbsp;&nbsp;&nbsp > Inicialmente criou-se os tipos ```int``` e ```string```
 
 - [X] Possuir a instrução if-else
 
