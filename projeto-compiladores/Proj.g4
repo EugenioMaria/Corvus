@@ -199,6 +199,7 @@ attribute:
     Semicolon
     {
       symbolTable.setValue(_varName, _attrContent);
+      symbolTable.setValue(_attrId, _attrContent);
       isAttr = false;
     }
 ;
