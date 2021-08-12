@@ -15,7 +15,7 @@ Caso haja o interesse de aprender mais sobre o funcionamento de um compilador, r
 - [X] Possuir ao menos uma estrutura de repetição.
       > A estrutura de repetição inicial escolhida foi o ```while```
 
-- [X] Verificar atribuição de variáveis (erro semântico) - compatibilidade de tipos
+- [X] Verificar atribuição de variáveis (erro semântico) - compatibilidade de tipos.
       > Não há conversão automática, caso ocorra a atribuição de tipos inválidos o compilador irá disparar uma Semantic Exception ❗.
       
 - [X] Possuir operações de entrada e saída.
