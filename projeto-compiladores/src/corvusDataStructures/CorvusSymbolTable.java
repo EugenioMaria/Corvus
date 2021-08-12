@@ -28,6 +28,26 @@ public class CorvusSymbolTable {
         return map.get(symbolName);
     }
 
+    public int getType(String symbolName){
+        return map.get(symbolName).getType();
+    }
+
+    public void setValue(String symbolName,String value){
+        CorvusVariable updateVariable = map.get(symbolName);
+        updateVariable.setValue(value);
+        map.put(symbolName,updateVariable);
+    }
+
+    public void setRead(String symbolName){
+        CorvusVariable updateVariable = map.get(symbolName);
+        updateVariable.setRead(true);
+        map.put(symbolName,updateVariable);
+    }
+
+    public boolean getRead(String symbolName){
+        return map.get(symbolName).getRead();
+    }
+
     public ArrayList<CorvusVariable> getAll(){
         ArrayList<CorvusVariable> lista = new ArrayList<CorvusVariable>();
         for (CorvusVariable symbol : map.values()) {

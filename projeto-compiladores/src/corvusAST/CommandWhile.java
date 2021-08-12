@@ -1,5 +1,7 @@
 package corvusAST;
 
+import main.CorvusUtils;
+
 import java.util.ArrayList;
 
 public class CommandWhile extends CorvusAbstractCommand {
@@ -21,11 +23,17 @@ public class CommandWhile extends CorvusAbstractCommand {
     }
 
     @Override
-    public String generateJava() {
+    public String generateJava(int index) {
         StringBuilder cmd = new StringBuilder();
+        String tbs = CorvusUtils.IdentationBuilder(index);
+        cmd.append(tbs);
+        cmd.append("while(" + condition + "){\n");
         for (CorvusAbstractCommand curr : cmdList){
-            cmd.append("\t"+curr.generateJava().replaceAll("\n","\n\t"));
+            cmd.append(curr.generateJava(index + 1));
         }
-        return "while(" + condition + "){\n\t" + cmd + "}\n";
+        cmd.append(tbs + "}\n");
+
+        return cmd.toString();
+
     }
 }

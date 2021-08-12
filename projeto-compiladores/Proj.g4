@@ -33,18 +33,28 @@ grammar Proj;
     private String _attrContent;
     private String _exprDecision;
     private int _varType;
+    private int _attrType;
     private String _varName;
     private String _varValue;
+    private Boolean isAttr;
+    private String [] varTypeStrings = CorvusVariable.typeList;
+    private int line;
 
     private void verifyId(String id){
         if(!symbolTable.exists(id)){
-            throw new CorvusSemanticException("Variable '" + id + "' has not been declared");
+            throw new CorvusSemanticException("Variable '" + id + "' has not been declared at Line " + line);
         }
     }
 
     public void printCMD(){
         for(CorvusAbstractCommand cur : program.getCmd()){
             System.out.println(cur.toString());
+        }
+    }
+
+    public void verifyType(int attrType, int expressionType){
+        if(attrType!=expressionType && isAttr){
+            throw new CorvusSemanticException("Illegal attribution from " + varTypeStrings[attrType] + " to " + varTypeStrings[expressionType] + " at line " + line);
         }
     }
 
@@ -99,7 +109,7 @@ type :
     | 'float' { _varType = CorvusVariable.floatVar; }
     | 'string' { _varType = CorvusVariable.stringVar; }
     | 'list' { _varType = CorvusVariable.listVar; }
-    | 'obj' { _varType = CorvusVariable.objVar; }
+    | 'boolean' { _varType = CorvusVariable.booleanVar;}
 ;
 codeBlock :
     {
@@ -130,21 +140,42 @@ attribute:
     Identifier {
       verifyId(_input.LT(-1).getText());
       _varName = _input.LT(-1).getText();
+      line = _input.LT(-1).getLine();
       _attrId = _varName;
+      isAttr = true;
+      _attrType = symbolTable.getType(_varName);
     }
     Attribute {
       _attrContent = "";
     }
-    (expression {
-        CommandAttr cmd = new CommandAttr(_attrId,_attrContent);
-        cmdStack.peek().add(cmd);
-    }
-    | read {
-        CommandRead cmdRead = new CommandRead(symbolTable.get(_varName).getTypeString());
-        CommandAttr cmd = new CommandAttr(_attrId,cmdRead.generateJava());
-        cmdStack.peek().add(cmd);
-    })
+    (
+        expression {
+            CommandAttr cmd = new CommandAttr(_attrId,_attrContent);
+            cmdStack.peek().add(cmd);
+        }
+        | read {
+            CommandRead cmdRead = new CommandRead(symbolTable.get(_varName).getTypeString());
+            CommandAttr cmd = new CommandAttr(_attrId,cmdRead.generateJava(0));
+            cmdStack.peek().add(cmd);
+        }
+        | OpenParentheses
+            {
+              verifyType(_attrType,3);
+              isAttr = false;
+            }
+          boolExpression
+           {
+             CommandAttr cmd = new CommandAttr(_attrId,_attrContent);
+             cmdStack.peek().add(cmd);
+
+           }
+        CloseParentheses
+    )
     Semicolon
+    {
+      symbolTable.setValue(_varName, _attrContent);
+      isAttr = false;
+    }
 ;
 
 expression:
@@ -160,10 +191,22 @@ termo:
         verifyId(_input.LT(-1).getText());
         _varName = _input.LT(-1).getText();
         _attrContent += _input.LT(-1).getText();
+        _varType  = symbolTable.getType(_varName);
+        verifyType(_attrType,_varType);
+        symbolTable.setRead(_varName);
     }
-    | Integer {_attrContent += _input.LT(-1).getText();}
-    | Float {_attrContent += _input.LT(-1).getText();}
-    | String {_attrContent += _input.LT(-1).getText();}
+    | Integer {
+        _attrContent += _input.LT(-1).getText();
+        verifyType(_attrType, 0);
+    }
+    | Float {
+        _attrContent += _input.LT(-1).getText();
+        verifyType(_attrType, 4);
+    }
+    | String {
+        _attrContent += _input.LT(-1).getText();
+        verifyType(_attrType,1);
+    }
 ;
 
 WhiteSpace: (' ' | '\t' | '\n' | '\r') -> skip;
@@ -179,7 +222,7 @@ LogicalOperator: '||' | '&&' | '!=' | '!' |'==' | '>' | '<' | '<=' | '>=' ;
 Attribute: '=';
 
 //Possuir 2 tipos de variáveis (pelo menos 1 deles String)
-Integer: [0-9];
+Integer: [0-9]+;
 Float: [0-9]+ ( '.' [0-9]+ )?;
 String: ( '"' ) (Char)* ( '"' );
 
@@ -191,10 +234,19 @@ ifCMD:
     IfSintax
     {_attrContent = "";}
     OpenParentheses
-    boolExpression
+    (boolExpression {_exprDecision = _attrContent;}| Identifier
+                {
+                    _varName = _input.LT(-1).getText();
+                    _varType  = symbolTable.getType(_varName);
+                    _exprDecision = _varName;
+                    symbolTable.setRead(_varName);
+                    verifyType(3,_varType);
+                }
+             | 'true' {_exprDecision = "true";}
+             | 'false'{_exprDecision = "false";}
+    )
     CloseParentheses
     {
-        _exprDecision = _attrContent;
         conditionStack.push(_exprDecision);
     }
     OpenBraces
@@ -210,10 +262,18 @@ ifElseCMD:
     IfSintax
     {_attrContent = "";}
     OpenParentheses
-    boolExpression
+    (boolExpression {_exprDecision = _attrContent;}| Identifier
+            {
+                _varName = _input.LT(-1).getText();
+                _varType  = symbolTable.getType(_varName);
+                _exprDecision = _varName;
+                symbolTable.setRead(_varName);
+                verifyType(3,_varType);
+            }
+         | 'true' {_exprDecision = "true";}
+         | 'false'{_exprDecision = "false";})
     CloseParentheses
     {
-        _exprDecision = _attrContent;
         conditionStack.push(_exprDecision);
     }
     OpenBraces
@@ -232,9 +292,7 @@ ifElseCMD:
         cmdStack.peek().add(cmd);
     }
 ;
-//elseIfCMD:
-//    ifCMD (ElseSintax ifCMD)+
-//;
+
 
 WhileSintax: 'while' | 'WHILE';
 
@@ -242,10 +300,20 @@ whileCMD:
     WhileSintax
     OpenParentheses
     {_attrContent = "";}
-    boolExpression
+    (
+     boolExpression {_exprDecision = _attrContent;}| Identifier
+        {
+            _varName = _input.LT(-1).getText();
+            _varType  = symbolTable.getType(_varName);
+            _exprDecision = _varName;
+            symbolTable.setRead(_varName);
+            verifyType(3,_varType);
+        }
+     | 'true' {_exprDecision = "true";}
+     | 'false'{_exprDecision = "false";}
+    )
     CloseParentheses
     {
-        _exprDecision = _attrContent;
         conditionStack.push(_exprDecision);
     }
     OpenBraces

@@ -37,18 +37,30 @@ public class CorvusProgram {
         this.programName = programName;
     }
 
+    public void setWarnings(){
+        for(CorvusVariable curr: varTable.getAll()){
+            if(curr.getValue() == null){
+                System.out.println("@@ Warning -- Variable " + curr.getName() + " was declared, but has not been assigned.");
+            } else {
+                if (!curr.getRead()) {
+                    System.out.println("@@ Warning -- Variable " + curr.getName() + " was declared and assigned, but has not been used.");
+                }
+            }
+        }
+    }
+
     public void generateTarget(){
         StringBuilder str = new StringBuilder();
         str.append("import java.util.List;\n");
         str.append("import java.util.Scanner;\n");
         str.append("public class MainClass {\n");
-        str.append("    public static void main(String args[]){\n");
-        str.append("        Scanner _scan = new Scanner(System.in);\n");
+        str.append("\tpublic static void main(String args[]){\n");
+        str.append("\t\tScanner _scan = new Scanner(System.in);\n");
         for(CorvusVariable variable: varTable.getAll()){
-            str.append("\t\t"+variable.generateJava().replaceAll("\n","\n\t")+"\n");
+            str.append(variable.generateJava(2)+"\n");
         }
         for(CorvusAbstractCommand command: cmd){
-            str.append("\t\t"+command.generateJava().replaceAll("\n","\n\t")+"\n");
+            str.append(command.generateJava(2) + "\n");
         }
 
         str.append("    }\n");
@@ -57,6 +69,7 @@ public class CorvusProgram {
             FileWriter fr = new FileWriter(new File("corScript.java"));
             fr.write(str.toString());
             fr.close();
+            setWarnings();
         } catch (Exception e){
             e.printStackTrace();
         }

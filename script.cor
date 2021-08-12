@@ -1,20 +1,53 @@
-program {
-    int a, b, c, d;
+program{
+    int a, c, d;
+    float b;
+    boolean bool;
+    float gh;
     a = 1;
-    b = 2;
+    b = 2.0;
     c = 1;
-    d = 10;
+    d = 5;
+
+    bool = (7 >=2);
 
     if(a < b){
+        if(7==2){
+            a = 15;
+        } else {
+            b = 7.23;
+        }
+        if(true){
+            if(false){
+                if(bool){
+                    write(5);
+                }
+            }
+        } else {
+            write("Teste");
+        }
         write(a);
         write(a);
         write(a);
     }
 
-    while(a != 2){
-        d = d - 1;
+    string g;
+
+    g = "Oi";
+
+    while(bool){
         a = read();
+        d = d - 1;
         write(d);
         write(a);
+        a = d + 1 + 7 + 9 / 5 ;
+        if(a!=7){
+
+        } else {
+            while(a==2){
+                write("Teste");
+            }
+        }
     }
+
+    a = 7;
 } end

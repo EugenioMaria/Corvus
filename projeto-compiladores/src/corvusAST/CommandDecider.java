@@ -1,6 +1,8 @@
 package corvusAST;
 
 
+import main.CorvusUtils;
+
 import java.util.ArrayList;
 
 public class CommandDecider extends CorvusAbstractCommand{
@@ -24,18 +26,21 @@ public class CommandDecider extends CorvusAbstractCommand{
     }
 
     @Override
-    public String generateJava() {
+    public String generateJava(int index) {
         StringBuilder cmd = new StringBuilder();
+        cmd.append(CorvusUtils.IdentationBuilder(index));
         cmd.append("if(" + condition +") {\n");
         for(CorvusAbstractCommand curr :cmdTrue){
-            cmd.append("\t\t" + curr.generateJava().replaceAll("\n","\n\t"));
+            cmd.append(curr.generateJava(index + 1));
         }
-        if(cmdFalse != null){
-            cmd.append("} else {\n");
-            for(CorvusAbstractCommand curr: cmdFalse){
-                cmd.append("\t\t" + curr.generateJava().replaceAll("\n","\n\t"));
+        if(cmdFalse != null) {
+            cmd.append('\n');
+            cmd.append(CorvusUtils.IdentationBuilder(index) + "} else {\n");
+            for (CorvusAbstractCommand curr : cmdFalse) {
+                cmd.append(curr.generateJava(index + 1));
             }
         }
+        cmd.append(CorvusUtils.IdentationBuilder(index));
         cmd.append("}\n");
         return cmd.toString();
     }

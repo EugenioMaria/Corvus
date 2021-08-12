@@ -1,20 +1,32 @@
 package corvusDataStructures;
 
+import main.CorvusUtils;
+
 public class CorvusVariable extends CorvusSymbol {
     public static final int intVar = 0;
     public static final int stringVar = 1;
     public static final int listVar = 2;
-    public static final int objVar = 3;
+    public static final int booleanVar = 3;
     public static final int floatVar = 4;
-    public static final String [] typeList = {"int","String","List","obj","float"};
+    public static final String [] typeList = {"int","String","List","Boolean","double"};
 
     private int type;
     private String value;
+    private Boolean read;
 
     public CorvusVariable(String name, String value, int type){
         super(name);
         this.type= type;
         this.value = value;
+        this.read = false;
+    }
+
+    public void setRead(Boolean cond){
+        this.read = cond;
+    }
+
+    public Boolean getRead(){
+        return this.read;
     }
 
     @Override
@@ -44,7 +56,7 @@ public class CorvusVariable extends CorvusSymbol {
     }
 
     public String getValue() {
-        return value;
+        return this.value;
     }
 
     @Override
@@ -56,7 +68,10 @@ public class CorvusVariable extends CorvusSymbol {
     }
 
     @Override
-    public String generateJava() {
-        return typeList[this.type] + " " + this.name + ";";
+    public String generateJava(int index) {
+        StringBuilder cmd = new StringBuilder();
+        cmd.append(CorvusUtils.IdentationBuilder(index));
+        cmd.append(typeList[this.type] + " " + this.name + ";");
+        return cmd.toString();
     }
 }

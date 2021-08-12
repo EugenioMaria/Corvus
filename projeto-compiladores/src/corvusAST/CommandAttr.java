@@ -1,5 +1,7 @@
 package corvusAST;
 
+import main.CorvusUtils;
+
 public class CommandAttr extends CorvusAbstractCommand{
 
     private String id;
@@ -19,7 +21,13 @@ public class CommandAttr extends CorvusAbstractCommand{
     }
 
     @Override
-    public String generateJava() {
-        return id + " = " + expr + ";\n";
+    public String generateJava(int index) {
+        StringBuilder cmd = new StringBuilder();
+        cmd.append(CorvusUtils.IdentationBuilder(index));
+        cmd.append(id + " = " + expr + ";");
+        if (index>2){
+            cmd.append("\n");
+        }
+        return cmd.toString();
     }
 }

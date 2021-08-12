@@ -3,7 +3,7 @@ package corvusDataStructures;
 public abstract class CorvusSymbol {
     protected String name;
 
-    public abstract String generateJava();
+    public abstract String generateJava(int index);
 
     public CorvusSymbol(String name){
         this.name = name;
