@@ -30,16 +30,16 @@ Caso haja o interesse de aprender mais sobre o funcionamento de um compilador, r
 > Neste caso escolheu-se como linguagem de destino o Java ✔
 
 #### Requisitos adicionais implementados:
--[X] Mais tipos de dados.
+- [X] Mais tipos de dados.
 > Introduziu-se os tipos ```boolean``` e ```float```
 
--[X] Verificação se uma variável declarada e atribuída é utilizada ou não.
+- [X] Verificação se uma variável declarada e atribuída é utilizada ou não.
 > Essa validação apenas dispara um Warning ⚠.
 
--[X] Mais estruturas de repetição.
+- [X] Mais estruturas de repetição.
 > Adicionou-se a instrução ```for```.
 
--[X] Multíplo encadeamento de condicionais e laços de repetição.
+- [X] Multíplo encadeamento de condicionais e laços de repetição.
 > Foi adicionado a possibilidade do encadeamento de condicionais e laços.
 
 - [X] Identação do código.
