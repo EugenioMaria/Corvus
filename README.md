@@ -1,6 +1,6 @@
 # Corvus - Projeto disciplina de compiladores da UFABC.
 
-Alunos:\t\tEugenio Maria - RA:\t e \tGabriel Agostini - RA:
+#h3 Alunos: Eugenio Maria - RA:  e  Gabriel Agostini - RA: 11201721571
   
 Requisitos mínimos implementados:
   
