@@ -6,9 +6,10 @@ Esse projeto possui apenas fins ditáticos, sendo um requisito necessário para 
 
 Caso haja o interesse de aprender mais sobre o funcionamento de um compilador, recomendamos fortemente o contéudo 💯% gratuito oferecido pelo Professor Isidro, todas as aulas do curso de compiladores estão disponíveis no YouTube, **[acesse aqui](https://www.youtube.com/watch?v=gxlxHYv-9oo&list=PLjcmNukBom6--0we1zrpoUE2GuRD-Me6W)**
 
-#### Requisitos mínimos implementados:
+#### Requisitos mínimos implementados ✅:
+
    - [X] Possuir dois tipos de variáveis (pelo menos 1 deles String)
-      > Inicialmente criou-se os tipos ```int``` e ```string```
+         > Inicialmente criou-se os tipos ```int``` e ```string```
 
    - [X] Possuir a instrução if-else
 
@@ -31,7 +32,7 @@ Caso haja o interesse de aprender mais sobre o funcionamento de um compilador, r
    - [X] Linguagem Destino (C/Java/Python)
       > Neste caso escolheu-se como linguagem de destino o Java ✔
 
-#### Requisitos adicionais implementados:
+#### Requisitos adicionais implementados ✅:
    - [X] Mais tipos de dados.
       > Introduziu-se os tipos ```boolean``` e ```float```
 
@@ -40,11 +41,11 @@ Caso haja o interesse de aprender mais sobre o funcionamento de um compilador, r
 
    - [X] Mais estruturas de repetição.
       > Adicionou-se a instrução ```for```.
-
-      - [X] Multíplo encadeamento de condicionais e laços de repetição.
+     
+   - [X] Multíplo encadeamento de condicionais e laços de repetição.
       > Foi adicionado a possibilidade do encadeamento de condicionais e laços.
 
-      - [X] Identação do código.
+   - [X] Identação do código.
       > Alteração para que a identação de comandos encadeados esteja correta.
 
 
