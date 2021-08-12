@@ -151,5 +151,104 @@ Caso haja o interesse de aprender mais sobre o funcionamento de um compilador, r
    - [X] Identação do código.
       > Alteração para que a identação de comandos encadeados esteja correta.
 
+## Resultado
 
+Como exemplo temos o seguinte código ".cor":
 
+```
+            program{
+                int opcaoEscolhida;
+                write("Digite 1 para gerar uma sequencia de Fibonacci ou 2 para calcular o fatorial\n");
+                opcaoEscolhida = read();
+
+                if(opcaoEscolhida == 1){
+                    int quantidade;
+
+                    write("Digite a quantidade de numeros de Fibonacci\n");
+
+                    quantidade = read();
+
+                    write("1 1 ");
+                    quantidade = quantidade - 2;
+
+                    int numero1;
+                    int numero2;
+                    numero1 = 1;
+                    numero2 = 1;
+                    while(0 < quantidade){
+                        int numeroFinal;
+                        numeroFinal = numero1 + numero2;
+                        write(numeroFinal);
+                        write(" ");
+                        numero1 = numero2;
+                        numero2 = numeroFinal;
+                        quantidade = quantidade - 1;
+                    }
+                }
+                else{
+                    int fatorial;
+                    fatorial = 1;
+                    int numero;
+
+                    write("Digite um numero\n");
+
+                    numero = read();
+
+                    while(0 < numero){
+                        fatorial = fatorial * numero;
+                        numero = numero - 1;
+                    }
+                    write(fatorial);
+                }
+            } end
+```
+
+O resultado da transpilação:
+
+```
+            package main;
+            import java.util.List;
+            import java.util.Scanner;
+            public class corScript {
+               public static void main(String args[]){
+                  Scanner _scan = new Scanner(System.in);
+                  int fatorial;
+                  int numero1;
+                  int numeroFinal;
+                  int numero2;
+                  int numero;
+                  int quantidade;
+                  int opcaoEscolhida;
+                  System.out.print("Digite 1 para gerar uma sequencia de Fibonacci ou 2 para calcular o fatorial\n");
+
+                  opcaoEscolhida = _scan.nextInt();
+                  if(opcaoEscolhida==1) {
+                     System.out.print("Digite a quantidade de numeros de Fibonacci\n");
+                     quantidade = _scan.nextInt();
+                     System.out.print("1 1 ");
+                     quantidade = quantidade-2;
+                     numero1 = 1;
+                     numero2 = 1;
+                     while(0<quantidade){
+                        numeroFinal = numero1+numero2;
+                        System.out.print(numeroFinal);
+                        System.out.print(" ");
+                        numero1 = numero2;
+                        numero2 = numeroFinal;
+                        quantidade = quantidade-1;
+                     }
+
+                  } else {
+                     fatorial = 1;
+                     System.out.print("Digite um numero\n");
+                     numero = _scan.nextInt();
+                     while(0<numero){
+                        fatorial = fatorial*numero;
+                        numero = numero-1;
+                     }
+                     System.out.print(fatorial);
+                  }
+
+                }
+            }
+```
