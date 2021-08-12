@@ -36,7 +36,7 @@ grammar Proj;
     private int _attrType;
     private String _varName;
     private String _varValue;
-    private Boolean isAttr;
+    private Boolean isAttr = false;
     private String [] varTypeStrings = CorvusVariable.typeList;
     private int line;
 
@@ -224,7 +224,7 @@ Attribute: '=';
 //Possuir 2 tipos de variáveis (pelo menos 1 deles String)
 Integer: [0-9]+;
 Float: [0-9]+ ( '.' [0-9]+ )?;
-String: ( '"' ) (Char)* ( '"' );
+String: ( '"' ) (Char | WhiteSpace)* ( '"' );
 
 //Possuir a instrução if-else
 IfSintax: 'if' | 'IF';

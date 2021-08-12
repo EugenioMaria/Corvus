@@ -1,53 +1,8 @@
 program{
-    int a, c, d;
-    float b;
-    boolean bool;
-    float gh;
-    a = 1;
-    b = 2.0;
-    c = 1;
-    d = 5;
+    int quantidade;
 
-    bool = (7 >=2);
+    write("Digite a quantidade de numeros de Fibonacci");
 
-    if(a < b){
-        if(7==2){
-            a = 15;
-        } else {
-            b = 7.23;
-        }
-        if(true){
-            if(false){
-                if(bool){
-                    write(5);
-                }
-            }
-        } else {
-            write("Teste");
-        }
-        write(a);
-        write(a);
-        write(a);
-    }
+    quantidade = read();
 
-    string g;
-
-    g = "Oi";
-
-    while(bool){
-        a = read();
-        d = d - 1;
-        write(d);
-        write(a);
-        a = d + 1 + 7 + 9 / 5 ;
-        if(a!=7){
-
-        } else {
-            while(a==2){
-                write("Teste");
-            }
-        }
-    }
-
-    a = 7;
 } end

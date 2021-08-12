@@ -1,4 +1,4 @@
-// Generated from C:/Users/Gabriel Agostini/IdeaProjects/Corvus/projeto-compiladores\Proj.g4 by ANTLR 4.9.1
+// Generated from C:/Users/Eugene/Desktop/ufabc/compiladores/Corvus/projeto-compiladores\Proj.g4 by ANTLR 4.9.1
 package corvusParser;
 
     import corvusDataStructures.CorvusSymbol;
@@ -134,7 +134,7 @@ public class ProjParser extends Parser {
 	    private int _attrType;
 	    private String _varName;
 	    private String _varValue;
-	    private Boolean isAttr;
+	    private Boolean isAttr = false;
 	    private String [] varTypeStrings = CorvusVariable.typeList;
 	    private int line;
 
