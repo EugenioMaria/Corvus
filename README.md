@@ -10,8 +10,11 @@ Caso haja o interesse de aprender mais sobre o funcionamento de um compilador, r
 
    - [X] Possuir dois tipos de variáveis (pelo menos 1 deles String)
          > Inicialmente criou-se os tipos ```int``` e ```string```
-         > A declaração ocorre como:
-         > ```program{\n\tint a;\n\tstring b;} end ```
+         A declaração é feita conforme abaixo:
+         ```program{
+            int a;
+            string b;
+         } end ```
          
    - [X] Possuir a instrução if-else
 
