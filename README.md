@@ -53,7 +53,7 @@ Caso haja o interesse de aprender mais sobre o funcionamento de um compilador, r
    - [X] Possuir ao menos uma estrutura de repetição.
       > A estrutura de repetição inicial escolhida foi o ```while```, a condicional pode receber uma variável booleana, uma expressão booleana ou as palavras reservadas ```true``` e ```false```. Exemplo de uso:
 
-   ```
+```
              program {
                int a;
                boolean b;
@@ -73,15 +73,29 @@ Caso haja o interesse de aprender mais sobre o funcionamento de um compilador, r
 
              } end
 
-    ```
-
+```
    - [X] Verificar atribuição de variáveis (erro semântico) - compatibilidade de tipos.
       > Não há conversão automática, caso ocorra a atribuição de tipos inválidos o compilador irá disparar uma Semantic Exception ❗.
-      
+  
    - [X] Possuir operações de entrada e saída.
+      > Exemplo de uso:  
+```
+             program {
+               int a;
+               a = read();
+               write(a);
+             } end
 
+```    
    - [X] Aceitar números decimais.
+      > Números são considerados decimais apenas se possuirem pontuação e ao menos uma casa decimal. Exemplo:
+```
+             program {
+               float a;
+               a = 7.90 
+             } end
 
+``` 
    - [X] Verificar se uma variável foi ou não declarada.
       > Caso ocorra a atribuição ou uso de uma variável não declarada o compilador irá disparar uma Semantic Exception ❗.
     
@@ -93,17 +107,47 @@ Caso haja o interesse de aprender mais sobre o funcionamento de um compilador, r
 
 #### Requisitos adicionais implementados ✅:
    - [X] Mais tipos de dados.
-      > Introduziu-se os tipos ```boolean``` e ```float```
+      > Introduziu-se os tipos ```boolean``` e ```float```.
 
    - [X] Verificação se uma variável declarada e atribuída é utilizada ou não.
       > Essa validação apenas dispara um Warning ⚠ no final da compilação.
 
    - [X] Mais estruturas de repetição.
-      > Adicionou-se a instrução ```for```.
+      > Adicionou-se a instrução ```for```. Exemplo de uso:
+ ```
+             program {
+               int a;
+               for(a = 0 ; a<10 ; a+2){
+                    write(a);
+                    write("\n");
+               }
+               write("Fim");
+            } end
+
+``` 
      
    - [X] Multíplo encadeamento de condicionais e laços de repetição.
-      > Foi adicionado a possibilidade do encadeamento de condicionais e laços.
+      > Foi adicionado a possibilidade do encadeamento de condicionais e laços. Exemplo:
+ ```
+             program {
+               int a;
+               int b;
+               b = 3
+               for(a = 0 ; a<10 ; a+2){
+                    write(a);
+                    write("\n");
+                    if(a==4){
+                      while(b>0){
+                        b = b - 1;
+                        write(b);
+                        write("\n");
+                      }
+                    }
+               }
+               write("Fim");
+            } end
 
+``` 
    - [X] Identação do código.
       > Alteração para que a identação de comandos encadeados esteja correta.
 
