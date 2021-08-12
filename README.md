@@ -4,7 +4,7 @@ Esse projeto possui apenas fins ditáticos, sendo um requisito necessário para 
 
 #### Alunos: Eugenio Maria - RA:  e  Gabriel Agostini - RA: 11201721571
 
-Caso haja o interesse de aprender mais sobre o funcionamento de um compilador, recomendamos fortemente o contéudo 💯% gratuito oferecido pelo Professor Isidro, todas as aulas do curso de compiladores estão disponíveis no YouTube, **[acesse aqui](https://www.youtube.com/watch?v=gxlxHYv-9oo&list=PLjcmNukBom6--0we1zrpoUE2GuRD-Me6W)**
+Caso haja o interesse de aprender mais sobre o funcionamento de um compilador, recomendamos fortemente o contéudo 💯% gratuito oferecido pelo Professor Isidro, todas as aulas do curso de compiladores estão disponíveis no YouTube, **[acesse aqui.](https://www.youtube.com/watch?v=gxlxHYv-9oo&list=PLjcmNukBom6--0we1zrpoUE2GuRD-Me6W)**
 
 #### Requisitos mínimos implementados ✅:
 
