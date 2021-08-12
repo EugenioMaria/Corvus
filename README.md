@@ -9,8 +9,7 @@ Caso haja o interesse de aprender mais sobre o funcionamento de um compilador, r
 #### Requisitos mínimos implementados ✅:
 
    - [X] Possuir dois tipos de variáveis (pelo menos 1 deles String)
-      > Inicialmente criou-se os tipos ```int``` e ```string```
-      A declaração é feita conforme abaixo: 
+      > Inicialmente criou-se os tipos ```int``` e ```string```. A declaração é feita conforme abaixo: 
    
   ```
           program {
@@ -23,7 +22,29 @@ Caso haja o interesse de aprender mais sobre o funcionamento de um compilador, r
  ```        
  
  
-   - [X] Possuir a instrução if-else
+   - [X] Possuir a instrução if-else.
+      > Não é necessário a adição da instrução else, a condição pode receber uma variável booleana, uma expressão booleana ou as palavras reservadas ```true``` e ```false```. Exemplo de uso:
+
+  ```
+          program {
+          
+            int a;
+            boolean b;
+            
+            b = true;
+            a = 2;
+            
+            if(b){
+               if(a>=0){
+               
+               }
+            } else {
+            
+            }
+          
+          } end;
+          
+ ```
 
    - [X] Possuir ao menos uma estrutura de repetição.
       > A estrutura de repetição inicial escolhida foi o ```while```
