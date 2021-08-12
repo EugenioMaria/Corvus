@@ -36,10 +36,12 @@ Caso haja o interesse de aprender mais sobre o funcionamento de um compilador, r
             
             if(b){
                if(a>=0){
-               
+                  write(a);
                }
             } else {
-            
+               if(true){
+                  a = read();
+               }
             }
           
           } end;
