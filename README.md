@@ -23,7 +23,7 @@ Caso haja o interesse de aprender mais sobre o funcionamento de um compilador, r
  
  
    - [X] Possuir a instrução if-else.
-      > A instrução ```else``` é opcional, a condição pode receber uma variável booleana, uma expressão booleana ou as palavras reservadas ```true``` e ```false```. Exemplo de uso:
+      > A instrução ```else``` é opcional, a condicional pode receber uma variável booleana, uma expressão booleana ou as palavras reservadas ```true``` e ```false```. Exemplo de uso:
 
   ```
           program {
