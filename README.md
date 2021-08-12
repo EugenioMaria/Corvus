@@ -23,8 +23,10 @@ Caso haja o interesse de aprender mais sobre o funcionamento de um compilador, r
   - [X] Aceitar números decimais.
 
   - [X] Verificar se uma variável foi ou não declarada.
-
+    > Caso ocorra a atribuição ou uso de uma variável não declarada o compilador irá disparar uma Semantic Exception ❗.
+    
   - [X] Verificar se uma variável foi declarada mas não foi usada.
+    > Essa validação apenas dispara um Warning ⚠ no final da compilação.
   
   - [X] Linguagem Destino (C/Java/Python)
     > Neste caso escolheu-se como linguagem de destino o Java ✔
@@ -34,7 +36,7 @@ Caso haja o interesse de aprender mais sobre o funcionamento de um compilador, r
     > Introduziu-se os tipos ```boolean``` e ```float```
 
   - [X] Verificação se uma variável declarada e atribuída é utilizada ou não.
-    > Essa validação apenas dispara um Warning ⚠.
+    > Essa validação apenas dispara um Warning ⚠ no final da compilação.
 
   - [X] Mais estruturas de repetição.
     > Adicionou-se a instrução ```for```.
