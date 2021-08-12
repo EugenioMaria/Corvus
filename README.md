@@ -4,26 +4,84 @@ Esse projeto possui apenas fins ditáticos, sendo um requisito necessário para 
 
 #### Alunos: Eugenio Maria - RA:  e  Gabriel Agostini - RA: 11201721571
 
-Caso haja o interesse de aprender mais sobre o funcionamento de um compilador, recomendamos fortemente o contéudo 💯% gratuito oferecido pelo Professor Isidro, todas as aulas do curso de compiladores estão disponíveis no YouTube, **[acesse aqui](https://www.youtube.com/watch?v=gxlxHYv-9oo&list=PLjcmNukBom6--0we1zrpoUE2GuRD-Me6W)**
+Caso haja o interesse de aprender mais sobre o funcionamento de um compilador, recomendamos fortemente o conteúdo 💯% gratuito oferecido pelo Professor Isidro, todas as aulas do curso de compiladores estão disponíveis no YouTube, **[acesse aqui.](https://www.youtube.com/watch?v=gxlxHYv-9oo&list=PLjcmNukBom6--0we1zrpoUE2GuRD-Me6W)**
 
-### Requisitos mínimos implementados:
-- [X] Possuir dois tipos de variáveis (pelo menos 1 deles String)
-> Inicialmente criou-se os tipos ```int``` e ```string```
+#### Requisitos mínimos implementados ✅:
 
-- [X] Possuir a instrução if-else
+   - [X] Possuir dois tipos de variáveis (pelo menos 1 deles String)
+      > Inicialmente criou-se os tipos ```int``` e ```string```. A declaração é feita conforme abaixo: 
+   
+  ```
+          program {
+          
+            int a;
+            string b;
+          
+          } end;
+          
+ ```        
+ 
+ 
+   - [X] Possuir a instrução if-else.
+      > A instrução ```else``` é opcional, a condicional pode receber uma variável booleana, uma expressão booleana ou as palavras reservadas ```true``` e ```false```. Exemplo de uso:
 
-- [X] Possuir ao menos uma estrutura de repetição.
-> A estrutura de repetição inicial escolhida foi o ```while```
+  ```
+          program {
+          
+            int a;
+            boolean b;
+            
+            b = true;
+            a = 2;
+            
+            if(b){
+               if(a>=0){
+                  write(a);
+               }
+            } else {
+               if(true){
+                  a = read();
+               }
+            }
+          
+          } end;
+          
+ ```
 
-- [X] Possuir operações de entrada e saída.
+   - [X] Possuir ao menos uma estrutura de repetição.
+      > A estrutura de repetição inicial escolhida foi o ```while```
 
-- [X] Aceitar números decimais.
+   - [X] Verificar atribuição de variáveis (erro semântico) - compatibilidade de tipos.
+      > Não há conversão automática, caso ocorra a atribuição de tipos inválidos o compilador irá disparar uma Semantic Exception ❗.
+      
+   - [X] Possuir operações de entrada e saída.
 
-- [X] Verificar se uma variável foi ou não declarada.
+   - [X] Aceitar números decimais.
 
-- [X] Verificar se uma variável foi declarada mas não foi usada.
-
-- [X] Linguagem Destino (C/Java/Python)
-> Neste caso escolheu-se como linguagem de destino o Java ✔
-
+   - [X] Verificar se uma variável foi ou não declarada.
+      > Caso ocorra a atribuição ou uso de uma variável não declarada o compilador irá disparar uma Semantic Exception ❗.
+    
+   - [X] Verificar se uma variável foi declarada mas não foi usada.
+     > Essa validação apenas dispara um Warning ⚠ no final da compilação.
   
+   - [X] Linguagem Destino (C/Java/Python)
+      > Neste caso escolheu-se como linguagem de destino o Java ✔
+
+#### Requisitos adicionais implementados ✅:
+   - [X] Mais tipos de dados.
+      > Introduziu-se os tipos ```boolean``` e ```float```
+
+   - [X] Verificação se uma variável declarada e atribuída é utilizada ou não.
+      > Essa validação apenas dispara um Warning ⚠ no final da compilação.
+
+   - [X] Mais estruturas de repetição.
+      > Adicionou-se a instrução ```for```.
+     
+   - [X] Multíplo encadeamento de condicionais e laços de repetição.
+      > Foi adicionado a possibilidade do encadeamento de condicionais e laços.
+
+   - [X] Identação do código.
+      > Alteração para que a identação de comandos encadeados esteja correta.
+
+
+
