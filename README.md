@@ -51,7 +51,29 @@ Caso haja o interesse de aprender mais sobre o funcionamento de um compilador, r
  ```
 
    - [X] Possuir ao menos uma estrutura de repetição.
-      > A estrutura de repetição inicial escolhida foi o ```while```
+      > A estrutura de repetição inicial escolhida foi o ```while```, a condicional pode receber uma variável booleana, uma expressão booleana ou as palavras reservadas ```true``` e ```false```. Exemplo de uso:
+
+   ```
+             program {
+               int a;
+               boolean b;
+
+               b = true;
+               
+               while(b){
+                  write("Digite um número\n");
+                  a = read();
+                  write("Todos os números positivos menores são:\n");
+                  while(a>0){
+                     a = a -1;
+                     write(a);
+                     write("\n");
+                  }
+               }
+
+             } end;
+
+    ```
 
    - [X] Verificar atribuição de variáveis (erro semântico) - compatibilidade de tipos.
       > Não há conversão automática, caso ocorra a atribuição de tipos inválidos o compilador irá disparar uma Semantic Exception ❗.
