@@ -1,7 +1,7 @@
 program{
     int quantidade;
 
-    write("Digite a quantidade de numeros de Fibonacci");
+    write("Digite a quantidade de numeros de Fibonacci\n");
 
     quantidade = read();
 
