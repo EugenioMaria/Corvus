@@ -17,8 +17,22 @@ public class CommandRead extends CorvusAbstractCommand {
     @Override
     public String generateJava(int index) {
         StringBuilder cmd = new StringBuilder();
-        type = type.substring(0, 1).toUpperCase() + type.substring(1);
-        cmd.append("_scan.next"+type+"()");
+        String scanFunction="";
+        switch (type){
+            case "int":
+                scanFunction = "Int";
+                break;
+            case "double":
+                scanFunction = "Double";
+                break;
+            case "String":
+                scanFunction="Line";
+                break;
+            case "Boolean":
+                scanFunction="Boolean";
+                break;
+        }
+        cmd.append("_scan.next" + scanFunction +"()");
         return cmd.toString();
     }
 }

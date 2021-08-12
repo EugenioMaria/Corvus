@@ -1,4 +1,4 @@
-// Generated from C:/Users/Eugene/Desktop/ufabc/compiladores/Corvus/projeto-compiladores\Proj.g4 by ANTLR 4.9.1
+// Generated from C:/Users/Gabriel Agostini/IdeaProjects/Corvus/projeto-compiladores\Proj.g4 by ANTLR 4.9.1
 package corvusParser;
 
     import corvusDataStructures.CorvusSymbol;
@@ -12,6 +12,7 @@ package corvusParser;
     import corvusAST.CommandAttr;
     import corvusAST.CommandDecider;
     import corvusAST.CommandWhile;
+    import corvusAST.CommandFor;
     import java.util.ArrayList;
     import java.util.Stack;
 
@@ -33,20 +34,20 @@ public class ProjParser extends Parser {
 		new PredictionContextCache();
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
-		T__9=10, T__10=11, WhiteSpace=12, OpenParentheses=13, CloseParentheses=14, 
-		OpenBraces=15, CloseBraces=16, Semicolon=17, Colon=18, Operation=19, LogicalOperator=20, 
-		Attribute=21, Integer=22, Float=23, String=24, IfSintax=25, ElseSintax=26, 
-		WhileSintax=27, Identifier=28, Char=29;
+		T__9=10, T__10=11, T__11=12, WhiteSpace=13, OpenParentheses=14, CloseParentheses=15, 
+		OpenBraces=16, CloseBraces=17, Semicolon=18, Colon=19, Operation=20, LogicalOperator=21, 
+		Attribute=22, Integer=23, Float=24, String=25, IfSintax=26, ElseSintax=27, 
+		WhileSintax=28, Identifier=29, Char=30;
 	public static final int
 		RULE_prog = 0, RULE_decl = 1, RULE_varDeclaration = 2, RULE_type = 3, 
 		RULE_codeBlock = 4, RULE_command = 5, RULE_read = 6, RULE_write = 7, RULE_attribute = 8, 
 		RULE_expression = 9, RULE_boolExpression = 10, RULE_termo = 11, RULE_ifCMD = 12, 
-		RULE_ifElseCMD = 13, RULE_whileCMD = 14;
+		RULE_ifElseCMD = 13, RULE_whileCMD = 14, RULE_forCMD = 15;
 	private static String[] makeRuleNames() {
 		return new String[] {
 			"prog", "decl", "varDeclaration", "type", "codeBlock", "command", "read", 
 			"write", "attribute", "expression", "boolExpression", "termo", "ifCMD", 
-			"ifElseCMD", "whileCMD"
+			"ifElseCMD", "whileCMD", "forCMD"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
@@ -54,18 +55,18 @@ public class ProjParser extends Parser {
 	private static String[] makeLiteralNames() {
 		return new String[] {
 			null, "'program'", "'end'", "'int'", "'float'", "'string'", "'list'", 
-			"'boolean'", "'read'", "'write'", "'true'", "'false'", null, "'('", "')'", 
-			"'{'", "'}'", "';'", "','", null, null, "'='"
+			"'boolean'", "'read'", "'write'", "'false'", "'true'", "'for'", null, 
+			"'('", "')'", "'{'", "'}'", "';'", "','", null, null, "'='"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
 			null, null, null, null, null, null, null, null, null, null, null, null, 
-			"WhiteSpace", "OpenParentheses", "CloseParentheses", "OpenBraces", "CloseBraces", 
-			"Semicolon", "Colon", "Operation", "LogicalOperator", "Attribute", "Integer", 
-			"Float", "String", "IfSintax", "ElseSintax", "WhileSintax", "Identifier", 
-			"Char"
+			null, "WhiteSpace", "OpenParentheses", "CloseParentheses", "OpenBraces", 
+			"CloseBraces", "Semicolon", "Colon", "Operation", "LogicalOperator", 
+			"Attribute", "Integer", "Float", "String", "IfSintax", "ElseSintax", 
+			"WhileSintax", "Identifier", "Char"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -118,12 +119,16 @@ public class ProjParser extends Parser {
 	    private CorvusSymbolTable symbolTable = new CorvusSymbolTable();
 	    private Stack<ArrayList<CorvusAbstractCommand>> cmdStack = new Stack<ArrayList<CorvusAbstractCommand>>();
 	    private Stack<String> conditionStack = new Stack<String>();
+	    private Stack<String> iteratorStack = new Stack<String>();
+	    private Stack<String>  incrementStack = new Stack<String>();
+	    private Stack<String>  startValueStack = new Stack<String>();
 	    private CorvusVariable symbol;
 	    private CorvusProgram program = new CorvusProgram();
 	    private ArrayList<CorvusAbstractCommand> curThread;
 	    private ArrayList<CorvusAbstractCommand> cmdTrue;
 	    private ArrayList<CorvusAbstractCommand> cmdFalse;
 	    private ArrayList<CorvusAbstractCommand> cmdWhile;
+	    private ArrayList<CorvusAbstractCommand> cmdFor;
 
 	    private String _readId;
 	    private String _writeId;
@@ -140,7 +145,7 @@ public class ProjParser extends Parser {
 
 	    private void verifyId(String id){
 	        if(!symbolTable.exists(id)){
-	            throw new CorvusSemanticException("Variable '" + id + "' has not been declared at Line " + line);
+	            throw new CorvusSemanticException("Variable '" + id + "' has not been declared. Line " + line);
 	        }
 	    }
 
@@ -153,6 +158,12 @@ public class ProjParser extends Parser {
 	    public void verifyType(int attrType, int expressionType){
 	        if(attrType!=expressionType && isAttr){
 	            throw new CorvusSemanticException("Illegal attribution from " + varTypeStrings[attrType] + " to " + varTypeStrings[expressionType] + " at line " + line);
+	        }
+	    }
+
+	    public void validLoopType(int idType){
+	        if(idType != 0){
+	            throw new CorvusSemanticException("Illegal iterator, an iterator must be an int. At line " + line);
 	        }
 	    }
 
@@ -199,17 +210,17 @@ public class ProjParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(30);
-			match(T__0);
-			setState(31);
-			match(OpenBraces);
 			setState(32);
-			decl();
+			match(T__0);
 			setState(33);
-			codeBlock();
+			match(OpenBraces);
 			setState(34);
-			match(CloseBraces);
+			decl();
 			setState(35);
+			codeBlock();
+			setState(36);
+			match(CloseBraces);
+			setState(37);
 			match(T__1);
 
 			        program.setVarTable(symbolTable);
@@ -261,7 +272,7 @@ public class ProjParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(39); 
+			setState(41); 
 			_errHandler.sync(this);
 			_alt = 1;
 			do {
@@ -269,7 +280,7 @@ public class ProjParser extends Parser {
 				case 1:
 					{
 					{
-					setState(38);
+					setState(40);
 					varDeclaration();
 					}
 					}
@@ -277,7 +288,7 @@ public class ProjParser extends Parser {
 				default:
 					throw new NoViableAltException(this);
 				}
-				setState(41); 
+				setState(43); 
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,0,_ctx);
 			} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
@@ -333,12 +344,12 @@ public class ProjParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(43);
+			setState(45);
 			type();
 
 			//            _varType = _input.LT(-1).getText();
 			        
-			setState(45);
+			setState(47);
 			match(Identifier);
 
 			            _varName = _input.LT(-1).getText();
@@ -349,15 +360,15 @@ public class ProjParser extends Parser {
 			//            CommandVariable cmd = new CommandVariable(_varName,_varValue,_varType);
 			//            cmdStack.peek().add(cmd);
 			        
-			setState(52);
+			setState(54);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==Colon) {
 				{
 				{
-				setState(47);
+				setState(49);
 				match(Colon);
-				setState(48);
+				setState(50);
 				match(Identifier);
 
 				            _varName = _input.LT(-1).getText();
@@ -370,11 +381,11 @@ public class ProjParser extends Parser {
 				        
 				}
 				}
-				setState(54);
+				setState(56);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(55);
+			setState(57);
 			match(Semicolon);
 			}
 		}
@@ -413,13 +424,13 @@ public class ProjParser extends Parser {
 		TypeContext _localctx = new TypeContext(_ctx, getState());
 		enterRule(_localctx, 6, RULE_type);
 		try {
-			setState(67);
+			setState(69);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case T__2:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(57);
+				setState(59);
 				match(T__2);
 				 _varType = CorvusVariable.intVar; 
 				}
@@ -427,7 +438,7 @@ public class ProjParser extends Parser {
 			case T__3:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(59);
+				setState(61);
 				match(T__3);
 				 _varType = CorvusVariable.floatVar; 
 				}
@@ -435,7 +446,7 @@ public class ProjParser extends Parser {
 			case T__4:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(61);
+				setState(63);
 				match(T__4);
 				 _varType = CorvusVariable.stringVar; 
 				}
@@ -443,7 +454,7 @@ public class ProjParser extends Parser {
 			case T__5:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(63);
+				setState(65);
 				match(T__5);
 				 _varType = CorvusVariable.listVar; 
 				}
@@ -451,7 +462,7 @@ public class ProjParser extends Parser {
 			case T__6:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(65);
+				setState(67);
 				match(T__6);
 				 _varType = CorvusVariable.booleanVar;
 				}
@@ -508,17 +519,17 @@ public class ProjParser extends Parser {
 			        curThread = new ArrayList<CorvusAbstractCommand>();
 			        cmdStack.push(curThread);
 			    
-			setState(73);
+			setState(75);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__2) | (1L << T__3) | (1L << T__4) | (1L << T__5) | (1L << T__6) | (1L << T__7) | (1L << T__8) | (1L << IfSintax) | (1L << WhileSintax) | (1L << Identifier))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__2) | (1L << T__3) | (1L << T__4) | (1L << T__5) | (1L << T__6) | (1L << T__7) | (1L << T__8) | (1L << T__11) | (1L << IfSintax) | (1L << WhileSintax) | (1L << Identifier))) != 0)) {
 				{
 				{
-				setState(70);
+				setState(72);
 				command();
 				}
 				}
-				setState(75);
+				setState(77);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -557,6 +568,9 @@ public class ProjParser extends Parser {
 		public VarDeclarationContext varDeclaration() {
 			return getRuleContext(VarDeclarationContext.class,0);
 		}
+		public ForCMDContext forCMD() {
+			return getRuleContext(ForCMDContext.class,0);
+		}
 		public CommandContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -580,56 +594,63 @@ public class ProjParser extends Parser {
 		CommandContext _localctx = new CommandContext(_ctx, getState());
 		enterRule(_localctx, 10, RULE_command);
 		try {
-			setState(83);
+			setState(86);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(76);
+				setState(78);
 				read();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(77);
+				setState(79);
 				write();
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(78);
+				setState(80);
 				attribute();
 				}
 				break;
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(79);
+				setState(81);
 				ifCMD();
 				}
 				break;
 			case 5:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(80);
+				setState(82);
 				ifElseCMD();
 				}
 				break;
 			case 6:
 				enterOuterAlt(_localctx, 6);
 				{
-				setState(81);
+				setState(83);
 				whileCMD();
 				}
 				break;
 			case 7:
 				enterOuterAlt(_localctx, 7);
 				{
-				setState(82);
+				setState(84);
 				varDeclaration();
+				}
+				break;
+			case 8:
+				enterOuterAlt(_localctx, 8);
+				{
+				setState(85);
+				forCMD();
 				}
 				break;
 			}
@@ -674,18 +695,18 @@ public class ProjParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(85);
+			setState(88);
 			match(T__7);
-			setState(86);
-			match(OpenParentheses);
-			setState(87);
-			match(CloseParentheses);
 			setState(89);
+			match(OpenParentheses);
+			setState(90);
+			match(CloseParentheses);
+			setState(92);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,5,_ctx) ) {
 			case 1:
 				{
-				setState(88);
+				setState(91);
 				match(Semicolon);
 				}
 				break;
@@ -735,18 +756,18 @@ public class ProjParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(91);
+			setState(94);
 			match(T__8);
-			setState(92);
+			setState(95);
 			match(OpenParentheses);
-			setState(93);
+			setState(96);
 			termo();
 
 			        _writeId = _input.LT(-1).getText();
 			    
-			setState(95);
+			setState(98);
 			match(CloseParentheses);
-			setState(96);
+			setState(99);
 			match(Semicolon);
 
 			        CommandWrite cmd = new CommandWrite(_writeId);
@@ -775,11 +796,17 @@ public class ProjParser extends Parser {
 		public ReadContext read() {
 			return getRuleContext(ReadContext.class,0);
 		}
-		public TerminalNode OpenParentheses() { return getToken(ProjParser.OpenParentheses, 0); }
 		public BoolExpressionContext boolExpression() {
 			return getRuleContext(BoolExpressionContext.class,0);
 		}
-		public TerminalNode CloseParentheses() { return getToken(ProjParser.CloseParentheses, 0); }
+		public List<TerminalNode> OpenParentheses() { return getTokens(ProjParser.OpenParentheses); }
+		public TerminalNode OpenParentheses(int i) {
+			return getToken(ProjParser.OpenParentheses, i);
+		}
+		public List<TerminalNode> CloseParentheses() { return getTokens(ProjParser.CloseParentheses); }
+		public TerminalNode CloseParentheses(int i) {
+			return getToken(ProjParser.CloseParentheses, i);
+		}
 		public AttributeContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -802,10 +829,11 @@ public class ProjParser extends Parser {
 	public final AttributeContext attribute() throws RecognitionException {
 		AttributeContext _localctx = new AttributeContext(_ctx, getState());
 		enterRule(_localctx, 16, RULE_attribute);
+		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(99);
+			setState(102);
 			match(Identifier);
 
 			      verifyId(_input.LT(-1).getText());
@@ -815,20 +843,17 @@ public class ProjParser extends Parser {
 			      isAttr = true;
 			      _attrType = symbolTable.getType(_varName);
 			    
-			setState(101);
+			setState(104);
 			match(Attribute);
 
 			      _attrContent = "";
 			    
-			setState(115);
+			setState(131);
 			_errHandler.sync(this);
-			switch (_input.LA(1)) {
-			case Integer:
-			case Float:
-			case String:
-			case Identifier:
+			switch ( getInterpreter().adaptivePredict(_input,8,_ctx) ) {
+			case 1:
 				{
-				setState(103);
+				setState(106);
 				expression();
 
 				            CommandAttr cmd = new CommandAttr(_attrId,_attrContent);
@@ -836,9 +861,9 @@ public class ProjParser extends Parser {
 				        
 				}
 				break;
-			case T__7:
+			case 2:
 				{
-				setState(106);
+				setState(109);
 				read();
 
 				            CommandRead cmdRead = new CommandRead(symbolTable.get(_varName).getTypeString());
@@ -847,29 +872,75 @@ public class ProjParser extends Parser {
 				        
 				}
 				break;
-			case OpenParentheses:
+			case 3:
 				{
-				setState(109);
-				match(OpenParentheses);
+				setState(115);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				while (_la==OpenParentheses) {
+					{
+					{
+					setState(112);
+					match(OpenParentheses);
+					}
+					}
+					setState(117);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				}
 
 				              verifyType(_attrType,3);
 				              isAttr = false;
 				            
-				setState(111);
+				setState(119);
 				boolExpression();
 
 				             CommandAttr cmd = new CommandAttr(_attrId,_attrContent);
 				             cmdStack.peek().add(cmd);
 
 				           
-				setState(113);
-				match(CloseParentheses);
+				setState(124);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				while (_la==CloseParentheses) {
+					{
+					{
+					setState(121);
+					match(CloseParentheses);
+					}
+					}
+					setState(126);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				}
 				}
 				break;
-			default:
-				throw new NoViableAltException(this);
+			case 4:
+				{
+				setState(127);
+				match(T__9);
+
+				                verifyType(_attrType,3);
+				                isAttr = false;
+				                CommandAttr cmd = new CommandAttr(_attrId,"false");
+				                cmdStack.peek().add(cmd);
+				            
+				}
+				break;
+			case 5:
+				{
+				setState(129);
+				match(T__10);
+
+				                verifyType(_attrType,3);
+				                isAttr = false;
+				                CommandAttr cmd = new CommandAttr(_attrId,"true");
+				                cmdStack.peek().add(cmd);
+				            
+				}
+				break;
 			}
-			setState(117);
+			setState(133);
 			match(Semicolon);
 
 			      symbolTable.setValue(_varName, _attrContent);
@@ -925,22 +996,22 @@ public class ProjParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(120);
+			setState(136);
 			termo();
-			setState(126);
+			setState(142);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==Operation) {
 				{
 				{
-				setState(121);
+				setState(137);
 				match(Operation);
 				_attrContent += _input.LT(-1).getText();
-				setState(123);
+				setState(139);
 				termo();
 				}
 				}
-				setState(128);
+				setState(144);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -990,13 +1061,13 @@ public class ProjParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(129);
+			setState(145);
 			termo();
 			{
-			setState(130);
+			setState(146);
 			match(LogicalOperator);
 			_attrContent += _input.LT(-1).getText();
-			setState(132);
+			setState(148);
 			termo();
 			}
 			}
@@ -1040,13 +1111,13 @@ public class ProjParser extends Parser {
 		TermoContext _localctx = new TermoContext(_ctx, getState());
 		enterRule(_localctx, 22, RULE_termo);
 		try {
-			setState(142);
+			setState(158);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case Identifier:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(134);
+				setState(150);
 				match(Identifier);
 
 				        verifyId(_input.LT(-1).getText());
@@ -1061,7 +1132,7 @@ public class ProjParser extends Parser {
 			case Integer:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(136);
+				setState(152);
 				match(Integer);
 
 				        _attrContent += _input.LT(-1).getText();
@@ -1072,7 +1143,7 @@ public class ProjParser extends Parser {
 			case Float:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(138);
+				setState(154);
 				match(Float);
 
 				        _attrContent += _input.LT(-1).getText();
@@ -1083,7 +1154,7 @@ public class ProjParser extends Parser {
 			case String:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(140);
+				setState(156);
 				match(String);
 
 				        _attrContent += _input.LT(-1).getText();
@@ -1144,24 +1215,24 @@ public class ProjParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(144);
+			setState(160);
 			match(IfSintax);
 			_attrContent = "";
-			setState(146);
+			setState(162);
 			match(OpenParentheses);
-			setState(156);
+			setState(172);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,9,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,11,_ctx) ) {
 			case 1:
 				{
-				setState(147);
+				setState(163);
 				boolExpression();
 				_exprDecision = _attrContent;
 				}
 				break;
 			case 2:
 				{
-				setState(150);
+				setState(166);
 				match(Identifier);
 
 				                    _varName = _input.LT(-1).getText();
@@ -1174,29 +1245,29 @@ public class ProjParser extends Parser {
 				break;
 			case 3:
 				{
-				setState(152);
-				match(T__9);
+				setState(168);
+				match(T__10);
 				_exprDecision = "true";
 				}
 				break;
 			case 4:
 				{
-				setState(154);
-				match(T__10);
+				setState(170);
+				match(T__9);
 				_exprDecision = "false";
 				}
 				break;
 			}
-			setState(158);
+			setState(174);
 			match(CloseParentheses);
 
 			        conditionStack.push(_exprDecision);
 			    
-			setState(160);
+			setState(176);
 			match(OpenBraces);
-			setState(161);
+			setState(177);
 			codeBlock();
-			setState(162);
+			setState(178);
 			match(CloseBraces);
 
 			        cmdTrue = cmdStack.pop();
@@ -1264,24 +1335,24 @@ public class ProjParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(165);
+			setState(181);
 			match(IfSintax);
 			_attrContent = "";
-			setState(167);
+			setState(183);
 			match(OpenParentheses);
-			setState(177);
+			setState(193);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,10,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,12,_ctx) ) {
 			case 1:
 				{
-				setState(168);
+				setState(184);
 				boolExpression();
 				_exprDecision = _attrContent;
 				}
 				break;
 			case 2:
 				{
-				setState(171);
+				setState(187);
 				match(Identifier);
 
 				                _varName = _input.LT(-1).getText();
@@ -1294,40 +1365,40 @@ public class ProjParser extends Parser {
 				break;
 			case 3:
 				{
-				setState(173);
-				match(T__9);
+				setState(189);
+				match(T__10);
 				_exprDecision = "true";
 				}
 				break;
 			case 4:
 				{
-				setState(175);
-				match(T__10);
+				setState(191);
+				match(T__9);
 				_exprDecision = "false";
 				}
 				break;
 			}
-			setState(179);
+			setState(195);
 			match(CloseParentheses);
 
 			        conditionStack.push(_exprDecision);
 			    
-			setState(181);
+			setState(197);
 			match(OpenBraces);
-			setState(182);
+			setState(198);
 			codeBlock();
-			setState(183);
+			setState(199);
 			match(CloseBraces);
 
 			        cmdTrue = cmdStack.pop();
 			    
-			setState(185);
+			setState(201);
 			match(ElseSintax);
-			setState(186);
+			setState(202);
 			match(OpenBraces);
-			setState(187);
+			setState(203);
 			codeBlock();
-			setState(188);
+			setState(204);
 			match(CloseBraces);
 
 			        cmdFalse = cmdStack.pop();
@@ -1385,24 +1456,24 @@ public class ProjParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(191);
+			setState(207);
 			match(WhileSintax);
-			setState(192);
+			setState(208);
 			match(OpenParentheses);
 			_attrContent = "";
-			setState(203);
+			setState(219);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,11,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,13,_ctx) ) {
 			case 1:
 				{
-				setState(194);
+				setState(210);
 				boolExpression();
 				_exprDecision = _attrContent;
 				}
 				break;
 			case 2:
 				{
-				setState(197);
+				setState(213);
 				match(Identifier);
 
 				            _varName = _input.LT(-1).getText();
@@ -1415,29 +1486,29 @@ public class ProjParser extends Parser {
 				break;
 			case 3:
 				{
-				setState(199);
-				match(T__9);
+				setState(215);
+				match(T__10);
 				_exprDecision = "true";
 				}
 				break;
 			case 4:
 				{
-				setState(201);
-				match(T__10);
+				setState(217);
+				match(T__9);
 				_exprDecision = "false";
 				}
 				break;
 			}
-			setState(205);
+			setState(221);
 			match(CloseParentheses);
 
 			        conditionStack.push(_exprDecision);
 			    
-			setState(207);
+			setState(223);
 			match(OpenBraces);
-			setState(208);
+			setState(224);
 			codeBlock();
-			setState(209);
+			setState(225);
 			match(CloseBraces);
 
 			        cmdWhile = cmdStack.pop();
@@ -1457,73 +1528,197 @@ public class ProjParser extends Parser {
 		return _localctx;
 	}
 
+	public static class ForCMDContext extends ParserRuleContext {
+		public TerminalNode OpenParentheses() { return getToken(ProjParser.OpenParentheses, 0); }
+		public TerminalNode Identifier() { return getToken(ProjParser.Identifier, 0); }
+		public TerminalNode Attribute() { return getToken(ProjParser.Attribute, 0); }
+		public TerminalNode Integer() { return getToken(ProjParser.Integer, 0); }
+		public List<TerminalNode> Semicolon() { return getTokens(ProjParser.Semicolon); }
+		public TerminalNode Semicolon(int i) {
+			return getToken(ProjParser.Semicolon, i);
+		}
+		public BoolExpressionContext boolExpression() {
+			return getRuleContext(BoolExpressionContext.class,0);
+		}
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
+		public TerminalNode CloseParentheses() { return getToken(ProjParser.CloseParentheses, 0); }
+		public TerminalNode OpenBraces() { return getToken(ProjParser.OpenBraces, 0); }
+		public CodeBlockContext codeBlock() {
+			return getRuleContext(CodeBlockContext.class,0);
+		}
+		public TerminalNode CloseBraces() { return getToken(ProjParser.CloseBraces, 0); }
+		public ForCMDContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_forCMD; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ProjListener ) ((ProjListener)listener).enterForCMD(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ProjListener ) ((ProjListener)listener).exitForCMD(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ProjVisitor ) return ((ProjVisitor<? extends T>)visitor).visitForCMD(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final ForCMDContext forCMD() throws RecognitionException {
+		ForCMDContext _localctx = new ForCMDContext(_ctx, getState());
+		enterRule(_localctx, 30, RULE_forCMD);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(228);
+			match(T__11);
+			setState(229);
+			match(OpenParentheses);
+			setState(230);
+			match(Identifier);
+
+			        _varName = _input.LT(-1).getText();
+			        iteratorStack.push(_varName);
+			        _varType = symbolTable.getType(_varName);
+			        validLoopType(_varType);
+			    
+			setState(232);
+			match(Attribute);
+			setState(233);
+			match(Integer);
+
+			        symbolTable.setValue(_varName,_input.LT(-1).getText());
+			        startValueStack.push(_input.LT(-1).getText());
+			    
+			setState(235);
+			match(Semicolon);
+			_attrContent="";
+			setState(237);
+			boolExpression();
+
+			        _exprDecision = _attrContent;
+			        conditionStack.push(_exprDecision);
+			    
+			setState(239);
+			match(Semicolon);
+			_attrContent="";
+			setState(241);
+			expression();
+
+			        incrementStack.push(_attrContent);
+			    
+			setState(243);
+			match(CloseParentheses);
+			setState(244);
+			match(OpenBraces);
+			setState(245);
+			codeBlock();
+			setState(246);
+			match(CloseBraces);
+
+			            cmdFor = cmdStack.pop();
+			            CommandFor cmd  = new CommandFor(startValueStack.pop(),iteratorStack.pop(),conditionStack.pop(),incrementStack.pop(),cmdFor);
+			            cmdStack.peek().add(cmd);
+			    
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\37\u00d7\4\2\t\2"+
-		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"+
-		"\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\3\2\3\2\3\2\3\2\3"+
-		"\2\3\2\3\2\3\2\3\3\6\3*\n\3\r\3\16\3+\3\4\3\4\3\4\3\4\3\4\3\4\3\4\7\4"+
-		"\65\n\4\f\4\16\48\13\4\3\4\3\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5"+
-		"\5\5F\n\5\3\6\3\6\7\6J\n\6\f\6\16\6M\13\6\3\7\3\7\3\7\3\7\3\7\3\7\3\7"+
-		"\5\7V\n\7\3\b\3\b\3\b\3\b\5\b\\\n\b\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3"+
-		"\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\5\nv\n"+
-		"\n\3\n\3\n\3\n\3\13\3\13\3\13\3\13\7\13\177\n\13\f\13\16\13\u0082\13\13"+
-		"\3\f\3\f\3\f\3\f\3\f\3\r\3\r\3\r\3\r\3\r\3\r\3\r\3\r\5\r\u0091\n\r\3\16"+
-		"\3\16\3\16\3\16\3\16\3\16\3\16\3\16\3\16\3\16\3\16\3\16\5\16\u009f\n\16"+
-		"\3\16\3\16\3\16\3\16\3\16\3\16\3\16\3\17\3\17\3\17\3\17\3\17\3\17\3\17"+
-		"\3\17\3\17\3\17\3\17\3\17\5\17\u00b4\n\17\3\17\3\17\3\17\3\17\3\17\3\17"+
-		"\3\17\3\17\3\17\3\17\3\17\3\17\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20"+
-		"\3\20\3\20\3\20\3\20\5\20\u00ce\n\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20"+
-		"\3\20\2\2\21\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36\2\2\2\u00e4\2 \3\2"+
-		"\2\2\4)\3\2\2\2\6-\3\2\2\2\bE\3\2\2\2\nG\3\2\2\2\fU\3\2\2\2\16W\3\2\2"+
-		"\2\20]\3\2\2\2\22e\3\2\2\2\24z\3\2\2\2\26\u0083\3\2\2\2\30\u0090\3\2\2"+
-		"\2\32\u0092\3\2\2\2\34\u00a7\3\2\2\2\36\u00c1\3\2\2\2 !\7\3\2\2!\"\7\21"+
-		"\2\2\"#\5\4\3\2#$\5\n\6\2$%\7\22\2\2%&\7\4\2\2&\'\b\2\1\2\'\3\3\2\2\2"+
-		"(*\5\6\4\2)(\3\2\2\2*+\3\2\2\2+)\3\2\2\2+,\3\2\2\2,\5\3\2\2\2-.\5\b\5"+
-		"\2./\b\4\1\2/\60\7\36\2\2\60\66\b\4\1\2\61\62\7\24\2\2\62\63\7\36\2\2"+
-		"\63\65\b\4\1\2\64\61\3\2\2\2\658\3\2\2\2\66\64\3\2\2\2\66\67\3\2\2\2\67"+
-		"9\3\2\2\28\66\3\2\2\29:\7\23\2\2:\7\3\2\2\2;<\7\5\2\2<F\b\5\1\2=>\7\6"+
-		"\2\2>F\b\5\1\2?@\7\7\2\2@F\b\5\1\2AB\7\b\2\2BF\b\5\1\2CD\7\t\2\2DF\b\5"+
-		"\1\2E;\3\2\2\2E=\3\2\2\2E?\3\2\2\2EA\3\2\2\2EC\3\2\2\2F\t\3\2\2\2GK\b"+
-		"\6\1\2HJ\5\f\7\2IH\3\2\2\2JM\3\2\2\2KI\3\2\2\2KL\3\2\2\2L\13\3\2\2\2M"+
-		"K\3\2\2\2NV\5\16\b\2OV\5\20\t\2PV\5\22\n\2QV\5\32\16\2RV\5\34\17\2SV\5"+
-		"\36\20\2TV\5\6\4\2UN\3\2\2\2UO\3\2\2\2UP\3\2\2\2UQ\3\2\2\2UR\3\2\2\2U"+
-		"S\3\2\2\2UT\3\2\2\2V\r\3\2\2\2WX\7\n\2\2XY\7\17\2\2Y[\7\20\2\2Z\\\7\23"+
-		"\2\2[Z\3\2\2\2[\\\3\2\2\2\\\17\3\2\2\2]^\7\13\2\2^_\7\17\2\2_`\5\30\r"+
-		"\2`a\b\t\1\2ab\7\20\2\2bc\7\23\2\2cd\b\t\1\2d\21\3\2\2\2ef\7\36\2\2fg"+
-		"\b\n\1\2gh\7\27\2\2hu\b\n\1\2ij\5\24\13\2jk\b\n\1\2kv\3\2\2\2lm\5\16\b"+
-		"\2mn\b\n\1\2nv\3\2\2\2op\7\17\2\2pq\b\n\1\2qr\5\26\f\2rs\b\n\1\2st\7\20"+
-		"\2\2tv\3\2\2\2ui\3\2\2\2ul\3\2\2\2uo\3\2\2\2vw\3\2\2\2wx\7\23\2\2xy\b"+
-		"\n\1\2y\23\3\2\2\2z\u0080\5\30\r\2{|\7\25\2\2|}\b\13\1\2}\177\5\30\r\2"+
-		"~{\3\2\2\2\177\u0082\3\2\2\2\u0080~\3\2\2\2\u0080\u0081\3\2\2\2\u0081"+
-		"\25\3\2\2\2\u0082\u0080\3\2\2\2\u0083\u0084\5\30\r\2\u0084\u0085\7\26"+
-		"\2\2\u0085\u0086\b\f\1\2\u0086\u0087\5\30\r\2\u0087\27\3\2\2\2\u0088\u0089"+
-		"\7\36\2\2\u0089\u0091\b\r\1\2\u008a\u008b\7\30\2\2\u008b\u0091\b\r\1\2"+
-		"\u008c\u008d\7\31\2\2\u008d\u0091\b\r\1\2\u008e\u008f\7\32\2\2\u008f\u0091"+
-		"\b\r\1\2\u0090\u0088\3\2\2\2\u0090\u008a\3\2\2\2\u0090\u008c\3\2\2\2\u0090"+
-		"\u008e\3\2\2\2\u0091\31\3\2\2\2\u0092\u0093\7\33\2\2\u0093\u0094\b\16"+
-		"\1\2\u0094\u009e\7\17\2\2\u0095\u0096\5\26\f\2\u0096\u0097\b\16\1\2\u0097"+
-		"\u009f\3\2\2\2\u0098\u0099\7\36\2\2\u0099\u009f\b\16\1\2\u009a\u009b\7"+
-		"\f\2\2\u009b\u009f\b\16\1\2\u009c\u009d\7\r\2\2\u009d\u009f\b\16\1\2\u009e"+
-		"\u0095\3\2\2\2\u009e\u0098\3\2\2\2\u009e\u009a\3\2\2\2\u009e\u009c\3\2"+
-		"\2\2\u009f\u00a0\3\2\2\2\u00a0\u00a1\7\20\2\2\u00a1\u00a2\b\16\1\2\u00a2"+
-		"\u00a3\7\21\2\2\u00a3\u00a4\5\n\6\2\u00a4\u00a5\7\22\2\2\u00a5\u00a6\b"+
-		"\16\1\2\u00a6\33\3\2\2\2\u00a7\u00a8\7\33\2\2\u00a8\u00a9\b\17\1\2\u00a9"+
-		"\u00b3\7\17\2\2\u00aa\u00ab\5\26\f\2\u00ab\u00ac\b\17\1\2\u00ac\u00b4"+
-		"\3\2\2\2\u00ad\u00ae\7\36\2\2\u00ae\u00b4\b\17\1\2\u00af\u00b0\7\f\2\2"+
-		"\u00b0\u00b4\b\17\1\2\u00b1\u00b2\7\r\2\2\u00b2\u00b4\b\17\1\2\u00b3\u00aa"+
-		"\3\2\2\2\u00b3\u00ad\3\2\2\2\u00b3\u00af\3\2\2\2\u00b3\u00b1\3\2\2\2\u00b4"+
-		"\u00b5\3\2\2\2\u00b5\u00b6\7\20\2\2\u00b6\u00b7\b\17\1\2\u00b7\u00b8\7"+
-		"\21\2\2\u00b8\u00b9\5\n\6\2\u00b9\u00ba\7\22\2\2\u00ba\u00bb\b\17\1\2"+
-		"\u00bb\u00bc\7\34\2\2\u00bc\u00bd\7\21\2\2\u00bd\u00be\5\n\6\2\u00be\u00bf"+
-		"\7\22\2\2\u00bf\u00c0\b\17\1\2\u00c0\35\3\2\2\2\u00c1\u00c2\7\35\2\2\u00c2"+
-		"\u00c3\7\17\2\2\u00c3\u00cd\b\20\1\2\u00c4\u00c5\5\26\f\2\u00c5\u00c6"+
-		"\b\20\1\2\u00c6\u00ce\3\2\2\2\u00c7\u00c8\7\36\2\2\u00c8\u00ce\b\20\1"+
-		"\2\u00c9\u00ca\7\f\2\2\u00ca\u00ce\b\20\1\2\u00cb\u00cc\7\r\2\2\u00cc"+
-		"\u00ce\b\20\1\2\u00cd\u00c4\3\2\2\2\u00cd\u00c7\3\2\2\2\u00cd\u00c9\3"+
-		"\2\2\2\u00cd\u00cb\3\2\2\2\u00ce\u00cf\3\2\2\2\u00cf\u00d0\7\20\2\2\u00d0"+
-		"\u00d1\b\20\1\2\u00d1\u00d2\7\21\2\2\u00d2\u00d3\5\n\6\2\u00d3\u00d4\7"+
-		"\22\2\2\u00d4\u00d5\b\20\1\2\u00d5\37\3\2\2\2\16+\66EKU[u\u0080\u0090"+
-		"\u009e\u00b3\u00cd";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3 \u00fc\4\2\t\2\4"+
+		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
+		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\3\2\3\2\3"+
+		"\2\3\2\3\2\3\2\3\2\3\2\3\3\6\3,\n\3\r\3\16\3-\3\4\3\4\3\4\3\4\3\4\3\4"+
+		"\3\4\7\4\67\n\4\f\4\16\4:\13\4\3\4\3\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5"+
+		"\3\5\3\5\5\5H\n\5\3\6\3\6\7\6L\n\6\f\6\16\6O\13\6\3\7\3\7\3\7\3\7\3\7"+
+		"\3\7\3\7\3\7\5\7Y\n\7\3\b\3\b\3\b\3\b\5\b_\n\b\3\t\3\t\3\t\3\t\3\t\3\t"+
+		"\3\t\3\t\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\7\nt\n\n\f\n\16\n"+
+		"w\13\n\3\n\3\n\3\n\3\n\7\n}\n\n\f\n\16\n\u0080\13\n\3\n\3\n\3\n\3\n\5"+
+		"\n\u0086\n\n\3\n\3\n\3\n\3\13\3\13\3\13\3\13\7\13\u008f\n\13\f\13\16\13"+
+		"\u0092\13\13\3\f\3\f\3\f\3\f\3\f\3\r\3\r\3\r\3\r\3\r\3\r\3\r\3\r\5\r\u00a1"+
+		"\n\r\3\16\3\16\3\16\3\16\3\16\3\16\3\16\3\16\3\16\3\16\3\16\3\16\5\16"+
+		"\u00af\n\16\3\16\3\16\3\16\3\16\3\16\3\16\3\16\3\17\3\17\3\17\3\17\3\17"+
+		"\3\17\3\17\3\17\3\17\3\17\3\17\3\17\5\17\u00c4\n\17\3\17\3\17\3\17\3\17"+
+		"\3\17\3\17\3\17\3\17\3\17\3\17\3\17\3\17\3\20\3\20\3\20\3\20\3\20\3\20"+
+		"\3\20\3\20\3\20\3\20\3\20\3\20\5\20\u00de\n\20\3\20\3\20\3\20\3\20\3\20"+
+		"\3\20\3\20\3\21\3\21\3\21\3\21\3\21\3\21\3\21\3\21\3\21\3\21\3\21\3\21"+
+		"\3\21\3\21\3\21\3\21\3\21\3\21\3\21\3\21\3\21\3\21\2\2\22\2\4\6\b\n\f"+
+		"\16\20\22\24\26\30\32\34\36 \2\2\2\u010d\2\"\3\2\2\2\4+\3\2\2\2\6/\3\2"+
+		"\2\2\bG\3\2\2\2\nI\3\2\2\2\fX\3\2\2\2\16Z\3\2\2\2\20`\3\2\2\2\22h\3\2"+
+		"\2\2\24\u008a\3\2\2\2\26\u0093\3\2\2\2\30\u00a0\3\2\2\2\32\u00a2\3\2\2"+
+		"\2\34\u00b7\3\2\2\2\36\u00d1\3\2\2\2 \u00e6\3\2\2\2\"#\7\3\2\2#$\7\22"+
+		"\2\2$%\5\4\3\2%&\5\n\6\2&\'\7\23\2\2\'(\7\4\2\2()\b\2\1\2)\3\3\2\2\2*"+
+		",\5\6\4\2+*\3\2\2\2,-\3\2\2\2-+\3\2\2\2-.\3\2\2\2.\5\3\2\2\2/\60\5\b\5"+
+		"\2\60\61\b\4\1\2\61\62\7\37\2\2\628\b\4\1\2\63\64\7\25\2\2\64\65\7\37"+
+		"\2\2\65\67\b\4\1\2\66\63\3\2\2\2\67:\3\2\2\28\66\3\2\2\289\3\2\2\29;\3"+
+		"\2\2\2:8\3\2\2\2;<\7\24\2\2<\7\3\2\2\2=>\7\5\2\2>H\b\5\1\2?@\7\6\2\2@"+
+		"H\b\5\1\2AB\7\7\2\2BH\b\5\1\2CD\7\b\2\2DH\b\5\1\2EF\7\t\2\2FH\b\5\1\2"+
+		"G=\3\2\2\2G?\3\2\2\2GA\3\2\2\2GC\3\2\2\2GE\3\2\2\2H\t\3\2\2\2IM\b\6\1"+
+		"\2JL\5\f\7\2KJ\3\2\2\2LO\3\2\2\2MK\3\2\2\2MN\3\2\2\2N\13\3\2\2\2OM\3\2"+
+		"\2\2PY\5\16\b\2QY\5\20\t\2RY\5\22\n\2SY\5\32\16\2TY\5\34\17\2UY\5\36\20"+
+		"\2VY\5\6\4\2WY\5 \21\2XP\3\2\2\2XQ\3\2\2\2XR\3\2\2\2XS\3\2\2\2XT\3\2\2"+
+		"\2XU\3\2\2\2XV\3\2\2\2XW\3\2\2\2Y\r\3\2\2\2Z[\7\n\2\2[\\\7\20\2\2\\^\7"+
+		"\21\2\2]_\7\24\2\2^]\3\2\2\2^_\3\2\2\2_\17\3\2\2\2`a\7\13\2\2ab\7\20\2"+
+		"\2bc\5\30\r\2cd\b\t\1\2de\7\21\2\2ef\7\24\2\2fg\b\t\1\2g\21\3\2\2\2hi"+
+		"\7\37\2\2ij\b\n\1\2jk\7\30\2\2k\u0085\b\n\1\2lm\5\24\13\2mn\b\n\1\2n\u0086"+
+		"\3\2\2\2op\5\16\b\2pq\b\n\1\2q\u0086\3\2\2\2rt\7\20\2\2sr\3\2\2\2tw\3"+
+		"\2\2\2us\3\2\2\2uv\3\2\2\2vx\3\2\2\2wu\3\2\2\2xy\b\n\1\2yz\5\26\f\2z~"+
+		"\b\n\1\2{}\7\21\2\2|{\3\2\2\2}\u0080\3\2\2\2~|\3\2\2\2~\177\3\2\2\2\177"+
+		"\u0086\3\2\2\2\u0080~\3\2\2\2\u0081\u0082\7\f\2\2\u0082\u0086\b\n\1\2"+
+		"\u0083\u0084\7\r\2\2\u0084\u0086\b\n\1\2\u0085l\3\2\2\2\u0085o\3\2\2\2"+
+		"\u0085u\3\2\2\2\u0085\u0081\3\2\2\2\u0085\u0083\3\2\2\2\u0086\u0087\3"+
+		"\2\2\2\u0087\u0088\7\24\2\2\u0088\u0089\b\n\1\2\u0089\23\3\2\2\2\u008a"+
+		"\u0090\5\30\r\2\u008b\u008c\7\26\2\2\u008c\u008d\b\13\1\2\u008d\u008f"+
+		"\5\30\r\2\u008e\u008b\3\2\2\2\u008f\u0092\3\2\2\2\u0090\u008e\3\2\2\2"+
+		"\u0090\u0091\3\2\2\2\u0091\25\3\2\2\2\u0092\u0090\3\2\2\2\u0093\u0094"+
+		"\5\30\r\2\u0094\u0095\7\27\2\2\u0095\u0096\b\f\1\2\u0096\u0097\5\30\r"+
+		"\2\u0097\27\3\2\2\2\u0098\u0099\7\37\2\2\u0099\u00a1\b\r\1\2\u009a\u009b"+
+		"\7\31\2\2\u009b\u00a1\b\r\1\2\u009c\u009d\7\32\2\2\u009d\u00a1\b\r\1\2"+
+		"\u009e\u009f\7\33\2\2\u009f\u00a1\b\r\1\2\u00a0\u0098\3\2\2\2\u00a0\u009a"+
+		"\3\2\2\2\u00a0\u009c\3\2\2\2\u00a0\u009e\3\2\2\2\u00a1\31\3\2\2\2\u00a2"+
+		"\u00a3\7\34\2\2\u00a3\u00a4\b\16\1\2\u00a4\u00ae\7\20\2\2\u00a5\u00a6"+
+		"\5\26\f\2\u00a6\u00a7\b\16\1\2\u00a7\u00af\3\2\2\2\u00a8\u00a9\7\37\2"+
+		"\2\u00a9\u00af\b\16\1\2\u00aa\u00ab\7\r\2\2\u00ab\u00af\b\16\1\2\u00ac"+
+		"\u00ad\7\f\2\2\u00ad\u00af\b\16\1\2\u00ae\u00a5\3\2\2\2\u00ae\u00a8\3"+
+		"\2\2\2\u00ae\u00aa\3\2\2\2\u00ae\u00ac\3\2\2\2\u00af\u00b0\3\2\2\2\u00b0"+
+		"\u00b1\7\21\2\2\u00b1\u00b2\b\16\1\2\u00b2\u00b3\7\22\2\2\u00b3\u00b4"+
+		"\5\n\6\2\u00b4\u00b5\7\23\2\2\u00b5\u00b6\b\16\1\2\u00b6\33\3\2\2\2\u00b7"+
+		"\u00b8\7\34\2\2\u00b8\u00b9\b\17\1\2\u00b9\u00c3\7\20\2\2\u00ba\u00bb"+
+		"\5\26\f\2\u00bb\u00bc\b\17\1\2\u00bc\u00c4\3\2\2\2\u00bd\u00be\7\37\2"+
+		"\2\u00be\u00c4\b\17\1\2\u00bf\u00c0\7\r\2\2\u00c0\u00c4\b\17\1\2\u00c1"+
+		"\u00c2\7\f\2\2\u00c2\u00c4\b\17\1\2\u00c3\u00ba\3\2\2\2\u00c3\u00bd\3"+
+		"\2\2\2\u00c3\u00bf\3\2\2\2\u00c3\u00c1\3\2\2\2\u00c4\u00c5\3\2\2\2\u00c5"+
+		"\u00c6\7\21\2\2\u00c6\u00c7\b\17\1\2\u00c7\u00c8\7\22\2\2\u00c8\u00c9"+
+		"\5\n\6\2\u00c9\u00ca\7\23\2\2\u00ca\u00cb\b\17\1\2\u00cb\u00cc\7\35\2"+
+		"\2\u00cc\u00cd\7\22\2\2\u00cd\u00ce\5\n\6\2\u00ce\u00cf\7\23\2\2\u00cf"+
+		"\u00d0\b\17\1\2\u00d0\35\3\2\2\2\u00d1\u00d2\7\36\2\2\u00d2\u00d3\7\20"+
+		"\2\2\u00d3\u00dd\b\20\1\2\u00d4\u00d5\5\26\f\2\u00d5\u00d6\b\20\1\2\u00d6"+
+		"\u00de\3\2\2\2\u00d7\u00d8\7\37\2\2\u00d8\u00de\b\20\1\2\u00d9\u00da\7"+
+		"\r\2\2\u00da\u00de\b\20\1\2\u00db\u00dc\7\f\2\2\u00dc\u00de\b\20\1\2\u00dd"+
+		"\u00d4\3\2\2\2\u00dd\u00d7\3\2\2\2\u00dd\u00d9\3\2\2\2\u00dd\u00db\3\2"+
+		"\2\2\u00de\u00df\3\2\2\2\u00df\u00e0\7\21\2\2\u00e0\u00e1\b\20\1\2\u00e1"+
+		"\u00e2\7\22\2\2\u00e2\u00e3\5\n\6\2\u00e3\u00e4\7\23\2\2\u00e4\u00e5\b"+
+		"\20\1\2\u00e5\37\3\2\2\2\u00e6\u00e7\7\16\2\2\u00e7\u00e8\7\20\2\2\u00e8"+
+		"\u00e9\7\37\2\2\u00e9\u00ea\b\21\1\2\u00ea\u00eb\7\30\2\2\u00eb\u00ec"+
+		"\7\31\2\2\u00ec\u00ed\b\21\1\2\u00ed\u00ee\7\24\2\2\u00ee\u00ef\b\21\1"+
+		"\2\u00ef\u00f0\5\26\f\2\u00f0\u00f1\b\21\1\2\u00f1\u00f2\7\24\2\2\u00f2"+
+		"\u00f3\b\21\1\2\u00f3\u00f4\5\24\13\2\u00f4\u00f5\b\21\1\2\u00f5\u00f6"+
+		"\7\21\2\2\u00f6\u00f7\7\22\2\2\u00f7\u00f8\5\n\6\2\u00f8\u00f9\7\23\2"+
+		"\2\u00f9\u00fa\b\21\1\2\u00fa!\3\2\2\2\20-8GMX^u~\u0085\u0090\u00a0\u00ae"+
+		"\u00c3\u00dd";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

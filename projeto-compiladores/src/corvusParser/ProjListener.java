@@ -1,4 +1,4 @@
-// Generated from C:/Users/Eugene/Desktop/ufabc/compiladores/Corvus/projeto-compiladores\Proj.g4 by ANTLR 4.9.1
+// Generated from C:/Users/Gabriel Agostini/IdeaProjects/Corvus/projeto-compiladores\Proj.g4 by ANTLR 4.9.1
 package corvusParser;
 
     import corvusDataStructures.CorvusSymbol;
@@ -12,6 +12,7 @@ package corvusParser;
     import corvusAST.CommandAttr;
     import corvusAST.CommandDecider;
     import corvusAST.CommandWhile;
+    import corvusAST.CommandFor;
     import java.util.ArrayList;
     import java.util.Stack;
 
@@ -172,4 +173,14 @@ public interface ProjListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitWhileCMD(ProjParser.WhileCMDContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ProjParser#forCMD}.
+	 * @param ctx the parse tree
+	 */
+	void enterForCMD(ProjParser.ForCMDContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ProjParser#forCMD}.
+	 * @param ctx the parse tree
+	 */
+	void exitForCMD(ProjParser.ForCMDContext ctx);
 }

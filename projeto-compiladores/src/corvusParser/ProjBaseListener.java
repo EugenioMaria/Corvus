@@ -1,4 +1,4 @@
-// Generated from C:/Users/Eugene/Desktop/ufabc/compiladores/Corvus/projeto-compiladores\Proj.g4 by ANTLR 4.9.1
+// Generated from C:/Users/Gabriel Agostini/IdeaProjects/Corvus/projeto-compiladores\Proj.g4 by ANTLR 4.9.1
 package corvusParser;
 
     import corvusDataStructures.CorvusSymbol;
@@ -12,6 +12,7 @@ package corvusParser;
     import corvusAST.CommandAttr;
     import corvusAST.CommandDecider;
     import corvusAST.CommandWhile;
+    import corvusAST.CommandFor;
     import java.util.ArrayList;
     import java.util.Stack;
 
@@ -206,6 +207,18 @@ public class ProjBaseListener implements ProjListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitWhileCMD(ProjParser.WhileCMDContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterForCMD(ProjParser.ForCMDContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitForCMD(ProjParser.ForCMDContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

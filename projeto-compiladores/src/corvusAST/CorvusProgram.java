@@ -51,9 +51,10 @@ public class CorvusProgram {
 
     public void generateTarget(){
         StringBuilder str = new StringBuilder();
+        str.append("package main;\n");
         str.append("import java.util.List;\n");
         str.append("import java.util.Scanner;\n");
-        str.append("public class MainClass {\n");
+        str.append("public class corScript {\n");
         str.append("\tpublic static void main(String args[]){\n");
         str.append("\t\tScanner _scan = new Scanner(System.in);\n");
         for(CorvusVariable variable: varTable.getAll()){
@@ -66,7 +67,7 @@ public class CorvusProgram {
         str.append("    }\n");
         str.append("}");
         try {
-            FileWriter fr = new FileWriter(new File("corScript.java"));
+            FileWriter fr = new FileWriter(new File("projeto-compiladores/src/main/corScript.java"));
             fr.write(str.toString());
             fr.close();
             setWarnings();

@@ -12,6 +12,7 @@ grammar Proj;
     import corvusAST.CommandAttr;
     import corvusAST.CommandDecider;
     import corvusAST.CommandWhile;
+    import corvusAST.CommandFor;
     import java.util.ArrayList;
     import java.util.Stack;
 }
@@ -20,12 +21,16 @@ grammar Proj;
     private CorvusSymbolTable symbolTable = new CorvusSymbolTable();
     private Stack<ArrayList<CorvusAbstractCommand>> cmdStack = new Stack<ArrayList<CorvusAbstractCommand>>();
     private Stack<String> conditionStack = new Stack<String>();
+    private Stack<String> iteratorStack = new Stack<String>();
+    private Stack<String>  incrementStack = new Stack<String>();
+    private Stack<String>  startValueStack = new Stack<String>();
     private CorvusVariable symbol;
     private CorvusProgram program = new CorvusProgram();
     private ArrayList<CorvusAbstractCommand> curThread;
     private ArrayList<CorvusAbstractCommand> cmdTrue;
     private ArrayList<CorvusAbstractCommand> cmdFalse;
     private ArrayList<CorvusAbstractCommand> cmdWhile;
+    private ArrayList<CorvusAbstractCommand> cmdFor;
 
     private String _readId;
     private String _writeId;
@@ -42,7 +47,7 @@ grammar Proj;
 
     private void verifyId(String id){
         if(!symbolTable.exists(id)){
-            throw new CorvusSemanticException("Variable '" + id + "' has not been declared at Line " + line);
+            throw new CorvusSemanticException("Variable '" + id + "' has not been declared. Line " + line);
         }
     }
 
@@ -55,6 +60,12 @@ grammar Proj;
     public void verifyType(int attrType, int expressionType){
         if(attrType!=expressionType && isAttr){
             throw new CorvusSemanticException("Illegal attribution from " + varTypeStrings[attrType] + " to " + varTypeStrings[expressionType] + " at line " + line);
+        }
+    }
+
+    public void validLoopType(int idType){
+        if(idType != 0){
+            throw new CorvusSemanticException("Illegal iterator, an iterator must be an int. At line " + line);
         }
     }
 
@@ -120,7 +131,7 @@ codeBlock :
 ;
 
 command:
-    read | write | attribute | ifCMD | ifElseCMD | whileCMD | varDeclaration // | elseIfCMD
+    read | write | attribute | ifCMD | ifElseCMD | whileCMD | varDeclaration |  forCMD
 ;
 
 read:
@@ -128,7 +139,7 @@ read:
 ;
 
 write:
-    'write' OpenParentheses termo {
+    'write' OpenParentheses termo  {
         _writeId = _input.LT(-1).getText();
     } CloseParentheses Semicolon {
         CommandWrite cmd = new CommandWrite(_writeId);
@@ -158,7 +169,7 @@ attribute:
             CommandAttr cmd = new CommandAttr(_attrId,cmdRead.generateJava(0));
             cmdStack.peek().add(cmd);
         }
-        | OpenParentheses
+        | OpenParentheses*
             {
               verifyType(_attrType,3);
               isAttr = false;
@@ -169,7 +180,21 @@ attribute:
              cmdStack.peek().add(cmd);
 
            }
-        CloseParentheses
+        CloseParentheses*
+        | 'false'
+            {
+                verifyType(_attrType,3);
+                isAttr = false;
+                CommandAttr cmd = new CommandAttr(_attrId,"false");
+                cmdStack.peek().add(cmd);
+            }
+        |'true'
+            {
+                verifyType(_attrType,3);
+                isAttr = false;
+                CommandAttr cmd = new CommandAttr(_attrId,"true");
+                cmdStack.peek().add(cmd);
+            }
     )
     Semicolon
     {
@@ -326,10 +351,47 @@ whileCMD:
     }
 ;
 
+forCMD:
+    'for' OpenParentheses
+    Identifier
+    {
+        _varName = _input.LT(-1).getText();
+        iteratorStack.push(_varName);
+        _varType = symbolTable.getType(_varName);
+        validLoopType(_varType);
+    }
+    Attribute
+    Integer
+    {
+        symbolTable.setValue(_varName,_input.LT(-1).getText());
+        startValueStack.push(_input.LT(-1).getText());
+    }
+    Semicolon {_attrContent="";}
+    boolExpression
+    {
+        _exprDecision = _attrContent;
+        conditionStack.push(_exprDecision);
+    } Semicolon
+    {_attrContent="";}
+    expression
+    {
+        incrementStack.push(_attrContent);
+    }
+    CloseParentheses
+    OpenBraces
+    codeBlock
+    CloseBraces
+    {
+            cmdFor = cmdStack.pop();
+            CommandFor cmd  = new CommandFor(startValueStack.pop(),iteratorStack.pop(),conditionStack.pop(),incrementStack.pop(),cmdFor);
+            cmdStack.peek().add(cmd);
+    }
+    ;
+
 //Deixar aqui para não idenficar um "if", "while", etc como Identifier
 Identifier: [a-z] ( [a-z] | [A-Z] | [0-9] )*;
-Char: ( [a-z] | [A-Z] | [0-9] | '\\' ) ;
-
+//Char: ( [a-z] | [A-Z] | [0-9] | '\\' | ':' | ',') ;
+Char: ~('{'| '}' | '(' | ')');
 //Question mark stands for: zero or one
 //Plus stands for: one or more
 //Star stands for: zero or more
